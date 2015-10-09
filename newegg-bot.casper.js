@@ -69,7 +69,7 @@ var password = casper.cli.get("password");
 
 if (username && password) {
     casper.then(function() {
-        this.echo('checking for new sweepstakes...')
+        this.echo('checking for new sweepstakes...');
     });
 // lastly, check for any new sweepstakes
     casper.thenOpen('http://www.fbrell.com/');
@@ -87,11 +87,12 @@ if (username && password) {
         }, true);
     });
     casper.then(function() {
-        this.echo('logging in...')
+        this.echo('logging in...');
     });
     casper.waitForText('auth.login event');
     casper.then(function(){
         this.evaluate(function() {
+            /*global FB, Log, document */
             FB.api('/Newegg/feed', function(response) {
                 var contests = response.data
                     .filter(function(d){

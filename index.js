@@ -61,7 +61,7 @@ fs.readdir('./', function(err, files) {
     }
 
     files.filter(function(name) {
-        return path.extname(name) == '.png'
+        return path.extname(name) == '.png';
     }).forEach(function(name) {
         var cid = getRandomId() + '@screen.png';
         email.attachments = [{

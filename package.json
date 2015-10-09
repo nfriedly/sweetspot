@@ -1,0 +1,37 @@
+{
+  "name": "newegg-bot",
+  "version": "1.0.0",
+  "description": "auto-enters you into the newegg sweepstakes",
+  "main": "index.js",
+  "scripts": {
+    "test": "jshint *.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nfriedly/newegg-bot.git"
+  },
+  "keywords": [
+    "newegg"
+  ],
+  "author": "Nathan Friedly - http://nfriedly.com/",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nfriedly/vzw-bot/issues"
+  },
+  "homepage": "https://github.com/nfriedly/newegg-bot#readme",
+  "dependencies": {
+    "casperjs": "^1.1.0-beta3",
+    "dotenv": "^1.2.0",
+    "nodemailer": "^1.5.0",
+    "nodemailer-sendgrid-transport": "^0.2.0",
+    "phantomjs": "^1.9.18",
+    "uncolor": "^0.3.0"
+  },
+  "engines": {
+    "node": "^4.1.1"
+  },
+  "devDependencies": {
+    "jshint": "^2.8.0"
+  }
+}

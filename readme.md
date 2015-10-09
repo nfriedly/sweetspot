@@ -21,6 +21,8 @@ First create a file named `.env` and add the following:
 EMAIL=<your email address>
 SENDGRID_USERNAME=<your sendgrid username>
 SENDGRID_PASSWORD=<your sendgrid password>
+
+# optional:
 FB_USERNAME=<your email/phone number on your facebook account>
 FB_PASSWORD=<your facebook password>
 ```
@@ -60,10 +62,15 @@ Note: travis has a bug where they assume a web server even though we didn't decl
     
 If it doesn't seem to be working, run `heroku run bash` to open a shell on a new server instance. Then you can try running different commands and see what's going on.
 
-Optionally email yourself results:
+Set it up to email you results
 
     heroku addons:create sendgrid
-    heroku config:set EMAIL=<your email> FB_USERNAME=<your email/phone number on your facebook account> FB_PASSWORD=<your facebook password>
+    heroku config:set EMAIL=<your email>
+    
+Optionally set it up to also check Facebook for new sweepstakes:
+
+    heroku config:set FB_USERNAME=<your email/phone number on your facebook account>
+    heroku config:set FB_PASSWORD=<your facebook password>
 
 Finally, push your code and then disable the default web worker that heroku creates:
 

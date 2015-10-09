@@ -6,6 +6,7 @@ var uncolor = require('uncolor');
 var nodemailer = require('nodemailer');
 var sgTransport = require('nodemailer-sendgrid-transport');
 var cp = require('child_process');
+var path = require('path');
 require('dotenv').config({silent: true});
 
 
@@ -17,49 +18,61 @@ var mailer = nodemailer.createTransport(sgTransport({
 }));
 
 
-if (new Date() < new Date('October 19, 2015 11:59 PM PST')) {
+console.log(require('./package.json').name + ' starting on ' + new Date().toUTCString());
 
-    console.log(require('./package.json').name + ' starting on ' + new Date().toUTCString());
-    if (process.env.SOURCE) {
-        console.log("Source: " + process.env.SOURCE);
+if (process.env.SOURCE) {
+    console.log("Source: " + process.env.SOURCE);
+}
+console.log('Running CasperJS script...');
+
+var result = cp.spawnSync('casperjs', [
+    'newegg-bot.casper.js',
+    '--username='+process.env.FB_USERNAME,
+    '--password='+process.env.FB_PASSWORD
+]);
+
+
+console.log(result.stdout.toString());
+console.error(result.stderr.toString());
+
+console.log('Emailing results to %s', process.env.EMAIL);
+
+
+var contents = [
+    'stdout:', result.stdout.toString(),
+    '',
+    'stderr:', result.stderr.toString()
+].join('\n');
+
+contents = uncolor(contents);
+
+var email = {
+    to: process.env.EMAIL,
+    from: process.env.EMAIL,
+    subject: '[newegg-bot] ' + (result.status === 0 ?  'Success' : 'Error') ,
+    text: contents,
+    html: contents.replace(/\n/g, '<br>'),
+};
+
+fs.readdir('./', function(err, files) {
+
+    function getRandomId() {
+        return parseInt(Math.random().toString().slice(2), 10).toString(36);
     }
-    console.log('Running CasperJS script...');
 
-    var result = cp.spawnSync('casperjs', ['newegg-bot.casper.js' ]);
-
-
-    console.log(result.stdout.toString());
-    console.error(result.stderr.toString());
-
-    console.log('Emailing results to %s', process.env.EMAIL);
-
-
-    var contents = [
-        'stdout:', result.stdout.toString(),
-        '',
-        'stderr:', result.stderr.toString()
-    ].join('\n');
-
-    contents = uncolor(contents);
-
-    var email = {
-        to: process.env.EMAIL,
-        from: process.env.EMAIL,
-        subject: '[vzw-bot] ' + (result.status === 0 ?  'Success' : 'Error') ,
-        text: contents,
-        html: contents.replace(/\n/g, '<br>'),
-    };
-
-    if(fs.existsSync('./screen.png')) {
-        var cid = Date.now() + '@screen.png';
+    files.filter(function(name) {
+        return path.extname(name) == '.png'
+    }).forEach(function(name) {
+        var cid = getRandomId() + '@screen.png';
         email.attachments = [{
-            filename: 'screen.png',
-            content: fs.readFileSync('./screen.png'), // read the file into memory so that we can delete it right away
+            filename: name,
+            content: fs.readFileSync('./' + name), // read the file into memory so that we can delete it right away
             cid: cid
         }];
-        email.html += '<br><br>Screenshot:<br><img src="cid:' + cid + '"/>';
-        fs.unlinkSync('./screen.png'); // delete the file so we don't accidentally send the same screenshot twice
-    }
+        email.html += '<br><br>'+name+':<br><img src="cid:' + cid + '"/>';
+        //fs.unlinkSync('./' + name); // delete the file so we don't accidentally send the same screenshot twice
+    });
+
 
     mailer.sendMail(email, function(err, res) {
         if (err) {
@@ -68,20 +81,5 @@ if (new Date() < new Date('October 19, 2015 11:59 PM PST')) {
         console.log(res);
         process.exit(result.status);
     });
-} else {
-     console.error('contest is over');
-
-    mailer.sendMail({
-        to: process.env.EMAIL,
-        from: process.env.EMAIL,
-        subject: '[newegg-bot] sweepstakes over!',
-        text: 'the sweepstakes has ended, you should shut me down'
-    }, function(err, res) {
-        if (err) {
-            console.error(err);
-        }
-        console.log(res);
-        process.exit(1);
-    });
-}
+});
 

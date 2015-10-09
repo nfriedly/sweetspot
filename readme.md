@@ -1,18 +1,7 @@
-Verizon "Smart Rewards" Bot
+Newegg Sweepstakes Bot
 ===============================
 
-Logs into your Verizon account and visits the smart rewards page. This:
-
-* Automatically grants you 300 points for logging in (once per billing cycle)
-* Automatically grants you a free entry for the current Samsung Tablet sweepstakes (once per day)
-
-It can optionally send out an email with the screenshots and logs always or just on errors.
-
-Finally, the app has (commented out) code to spend more points entering the tablet sweepstakes which can be easily 
-enabled and/or enhanced.
-
-Also check out my [analysis of what the points are worth in gift card auctions](https://gist.github.com/nfriedly/b80b569e2be2d2c86c18).
-
+Enters you into the Newegg #GameLikeAPro Sweepstakes - http://promotions.newegg.com/nepro/15-4467/index.html?cm_mmc=SNC-Shortstack-_-ShareWidget-_-Sweeps-GameLikeAPro-_-NA
 
 Installation
 ------------
@@ -71,7 +60,6 @@ Optionally email yourself results:
 
     heroku addons:create sendgrid
     heroku config:set EMAIL=<your email>
-    heroku config:set EMAIL_ON_SUCCESS=true
 
 Finally, push your code and then disable the default web worker that heroku creates:
 

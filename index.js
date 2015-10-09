@@ -25,7 +25,7 @@ if (new Date() < new Date('October 19, 2015 11:59 PM PST')) {
     }
     console.log('Running CasperJS script...');
 
-    var result = cp.spawnSync('casperjs', ['newett-bot.casper.js' ]);
+    var result = cp.spawnSync('casperjs', ['newegg-bot.casper.js' ]);
 
 
     console.log(result.stdout.toString());

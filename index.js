@@ -70,7 +70,7 @@ fs.readdir('./', function(err, files) {
             cid: cid
         }];
         email.html += '<br><br>'+name+':<br><img src="cid:' + cid + '"/>';
-        //fs.unlinkSync('./' + name); // delete the file so we don't accidentally send the same screenshot twice
+        fs.unlinkSync('./' + name); // delete the file so we don't accidentally send the same screenshot twice
     });
 
 

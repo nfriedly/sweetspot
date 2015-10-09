@@ -1,0 +1,7 @@
+deploy:
+  provider: heroku
+  api_key:
+    secure: MO+WDGgZUksa6EzpcBr8ltWWMqldMQf+rmCNsEUSODwvLqXbzFRGf16CFoYymTPVXDPP1yA68U2EbWDh4nq/FLJbbdhy/oTMu+u78FP8ta06FKFRZWKfScfxHvaT2+cpuSw9ImHeih0H/4mVssTBatHtHklMsijULnIFC4pYtoSCZ+1dKUu3SqVqg6o66KmgpV5BdbtX+RJEyFyrPfSKyOVK3QgSjKxVeOOxRQtnKDHBmfo6ZTBhPkdpPJ/ZcA2RWm/RR0eKEfIrA0Usxs5g0qa+BwS//IUSqJmUJvJppjLgVVxzzX0Gfab1jSdGX5/3ZTaX8s1X93CCUOl1v6WGvmnM/mr73syD8oGD06Y3Uu9hlgxJCEHoLUrr5Y+34m8UubA0U8u9ULR/PZaG9b/S6Oqx2naUAkzEQ44f+7zPgOvV5BjYMApRIjr83+IwTnslbdjzCuhCGWyl668f9xj6dz4cwI5hNd11vvhMxHFhTXyq4i7xaz/4trQdB5B6UpelW2PlrMgP6cpsZ08HDanyu/OrI5do5spgrEbE78Ypy/Arc5RUZVSfvfwnsFGIOX4PLZYr+SHco5AMq0lF+q89ohASWWqbFJ8jpewU+AERXQ6VUMO13dGEmWa3pIPR3uiR7OwP7fiyf71uv709G+uY+gwQ+9kzL0cjZgVmf9e6zLI=
+  app: newegg-bot
+  on:
+    repo: nfriedly/newegg-bot

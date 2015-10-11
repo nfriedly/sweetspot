@@ -52,6 +52,7 @@ var email = {
     subject: '[newegg-bot] ' + (result.status === 0 ?  'Success' : 'Error') ,
     text: contents,
     html: contents.replace(/\n/g, '<br>'),
+    attachments: []
 };
 
 fs.readdir('./', function(err, files) {
@@ -60,16 +61,16 @@ fs.readdir('./', function(err, files) {
         return parseInt(Math.random().toString().slice(2), 10).toString(36);
     }
 
-    files.filter(function(name) {
+    files.filter(function (name) {
         return path.extname(name) == '.png';
-    }).forEach(function(name) {
+    }).forEach(function (name) {
         var cid = getRandomId() + '@screen.png';
-        email.attachments = [{
+        email.attachments.push({
             filename: name,
             content: fs.readFileSync('./' + name), // read the file into memory so that we can delete it right away
             cid: cid
-        }];
-        email.html += '<br><br>'+name+':<br><img src="cid:' + cid + '"/>';
+        });
+        email.html += '<br><br>' + name + ':<br><img src="cid:' + cid + '"/>';
         fs.unlinkSync('./' + name); // delete the file so we don't accidentally send the same screenshot twice
     });
 

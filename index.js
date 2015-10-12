@@ -25,11 +25,7 @@ if (process.env.SOURCE) {
 }
 console.log('Running CasperJS script...');
 
-var result = cp.spawnSync('casperjs', [
-    'newegg-bot.casper.js',
-    '--username='+process.env.FB_USERNAME,
-    '--password='+process.env.FB_PASSWORD
-]);
+var result = cp.spawnSync('casperjs', ['newegg-bot.casper.js']);
 
 
 console.log(result.stdout.toString());

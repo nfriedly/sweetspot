@@ -3,7 +3,7 @@ Newegg Sweepstakes Bot
 
 Enters you into the Newegg #GameLikeAPro Sweepstakes - http://promotions.newegg.com/nepro/15-4467/index.html?cm_mmc=SNC-Shortstack-_-ShareWidget-_-Sweeps-GameLikeAPro-_-NA
 
-Also logs into FB as you to check for any new sweepstakes.
+Also hits FB to check for any new sweepstakes.
 
 Installation
 ------------
@@ -21,10 +21,6 @@ First create a file named `.env` and add the following:
 EMAIL=<your email address>
 SENDGRID_USERNAME=<your sendgrid username>
 SENDGRID_PASSWORD=<your sendgrid password>
-
-# optional:
-FB_USERNAME=<your email/phone number on your facebook account>
-FB_PASSWORD=<your facebook password>
 ```
 
 (Or set up equivalent environment properties.)
@@ -67,11 +63,6 @@ Set it up to email you results
     heroku addons:create sendgrid
     heroku config:set EMAIL=<your email>
     
-Optionally set it up to also check Facebook for new sweepstakes:
-
-    heroku config:set FB_USERNAME=<your email/phone number on your facebook account>
-    heroku config:set FB_PASSWORD=<your facebook password>
-
 Finally, push your code and then disable the default web worker that heroku creates:
 
     git push heroku

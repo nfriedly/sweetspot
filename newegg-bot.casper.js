@@ -28,7 +28,7 @@ casper.options.waitTimeout = 15*1000;
 casper.start();
 casper.userAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:40.0) Gecko/20100101 Firefox/40.0');
 
-if (today < new Date('October 19, 2015 11:59 PM PST')) {
+if (false && today < new Date('October 19, 2015 11:59 PM PST')) {
     casper.then(function () {
         this.echo('beginning game like a pro sweepstakes');
     });
@@ -64,55 +64,19 @@ if (today < new Date('October 19, 2015 11:59 PM PST')) {
     });
 }
 
-var username = casper.cli.get("username");
-var password = casper.cli.get("password");
-
-if (username && password) {
-    casper.then(function() {
-        this.echo('checking for new sweepstakes...');
-    });
-// lastly, check for any new sweepstakes
-    casper.thenOpen('http://www.fbrell.com/');
-    casper.waitForText('Executed example', function() {
-        // create a regular js function and call toString on it
-        this.echo('initiating FB login');
-        this.click('#rell-login');
-    });
-//casper.waitForPopup('https://www.facebook.com/login.php?skip_api_login=1&api_key=184484190795');
-    casper.wait(3000);
-    casper.withPopup('facebook.com', function () {
-        this.fill('#login_form', {
-            email: username,
-            pass: password
-        }, true);
-    });
-    casper.then(function() {
-        this.echo('logging in...');
-    });
-    casper.waitForText('auth.login event');
-    casper.then(function(){
-        this.evaluate(function() {
-            /*global FB, Log, document */
-            FB.api('/Newegg/feed', function(response) {
-                var contests = response.data
-                    .filter(function(d){
-                        return d.from.name == 'Newegg';
-                    })
-                    .map(function(d){
-                        return d.message;
-                    })
-                    .filter(function(m){return /giveaway|win|sweepstakes/i.test(m);});
-                Log.info('sweepstakes', contests.join('\n') || 'No current sweepstakes');
-            });
-        });
-    });
-    casper.waitForText('sweepstakes', function() {
-        var text = this.evaluate(function() {
-            return document.querySelector('div.log-entry.log-info div.bd').textContent;
-        });
-        this.echo('Sweepstakes: \n' + text);
-    });
-}
+casper.then(function() {
+    this.echo('checking https://m.facebook.com/Newegg for new sweepstakes...');
+});
+casper.thenOpen('https://m.facebook.com/Newegg', function() {
+    var text = this.fetchText('body');
+    // facebook uses the · bullet character right before posts and then again in the like/share line right after the post.. so it's a nice way to single out a post (unless the post has that character... then the regex probably won't hit at all)
+    //todo: catch it if multiple contests are announced on the same day
+    var match = text.match(/· ([^·]*\b(giveaway|win|sweepstakes)\b[^·]+)[\d,]+ · Share/i);
+    if (match) {
+        this.echo(match[1]);
+        this.capture('./facebook.png');
+    }
+});
 
 
 

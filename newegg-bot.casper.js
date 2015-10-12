@@ -28,7 +28,7 @@ casper.options.waitTimeout = 15*1000;
 casper.start();
 casper.userAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:40.0) Gecko/20100101 Firefox/40.0');
 
-if (false && today < new Date('October 19, 2015 11:59 PM PST')) {
+if (today < new Date('October 19, 2015 11:59 PM PST')) {
     casper.then(function () {
         this.echo('beginning game like a pro sweepstakes');
     });

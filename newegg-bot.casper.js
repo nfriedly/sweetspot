@@ -36,7 +36,8 @@ if (today < new Date('October 19, 2015 11:59 PM PST')) {
         //this.capture('./screen.png');
         //this.debugHTML();
     });
-    casper.wait(10*1000);
+var delay = new Date().getDay()-10;
+    casper.wait(delay*60*1000);
     casper.withFrame(0, function() {
         //this.capture('./screen.png');
         //this.debugHTML();

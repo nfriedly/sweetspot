@@ -25,7 +25,11 @@ if (process.env.SOURCE) {
 }
 console.log('Running CasperJS script...');
 
-var result = cp.spawnSync('casperjs', ['newegg-bot.casper.js']);
+var args = ['newegg-bot.casper.js'];
+if (process.env.SOURCE != 'localdev') {
+    args.push('--slow');
+}
+var result = cp.spawnSync('casperjs', args);
 
 
 console.log(result.stdout.toString());

@@ -42,7 +42,7 @@ casper.thenOpen('https://m.facebook.com/Newegg', function() {
     var text = this.fetchText('body');
     // facebook uses the · (bullet) character right before posts and then again in the like/share line right after the post.. so it's a nice way to single out a post (unless the post has that character... then the regex probably won't hit at all)
     //todo: catch it if multiple contests are announced on the same day
-    var match = text.match(/· ([^·]*\b(giveaway|win|sweepstakes)\b[^·]+)[\d,]+ · Share/i);
+    var match = text.match(/· ([^·]*\b(giveaway|giving away|win|sweepstakes)\b[^·]+)[\d,]+ · Share/i);
     if (match) {
         this.echo(match[1]);
         this.capture('./facebook.png');

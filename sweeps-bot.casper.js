@@ -215,7 +215,7 @@ addSweeps('toshiba fantastic four', '1/31/2016 11:59 PM PST', 'https://www.toshi
             birthDate: '08/08/1986'
         }, true);
         this.evaluate(function() {
-            /*globala jquery*/
+            /*globals jQuery*/
             jQuery('#emailInput, #zipcodeInput, #birthDateInput').trigger('change');
         });
     });
@@ -232,7 +232,7 @@ addSweeps('toshiba fantastic four', '1/31/2016 11:59 PM PST', 'https://www.toshi
             phone: phone
         }, false);
         this.evaluate(function() {
-            /*globala jquery*/
+            /*globals jQuery*/
             jQuery('#firstNameInput, #lastNameInput, #address1Input, #phoneInput').trigger('change');
         });
     });
@@ -248,11 +248,13 @@ addSweeps('ziploc', 'December 31, 2015 10:59:59 pm CST', 'https://holiday.ziploc
     this.fill('#emailFormLogin', {Identifier: email}, true);
     this.waitFor(function() {
         return this.evaluate(function() {
+            /*globals window*/
             return window.onEndedEvent;
         });
     });
     this.then(function() {
         this.evaluate(function() {
+            /*globals window*/
             window.onEndedEvent(); // videos won't play in casper, so we have to trigger the end manually
         });
     });

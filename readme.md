@@ -1,9 +1,7 @@
 Newegg Sweepstakes Bot
 ===============================
 
-Enters you into the Newegg #GameLikeAPro Sweepstakes - http://promotions.newegg.com/nepro/15-4467/index.html?cm_mmc=SNC-Shortstack-_-ShareWidget-_-Sweeps-GameLikeAPro-_-NA
-
-Also hits FB to check for any new sweepstakes.
+Helps you enter / remember to enter various sweepstakes.
 
 Installation
 ------------
@@ -28,8 +26,7 @@ SENDGRID_PASSWORD=<your sendgrid password>
 Then run `npm start`.
 
 That's all it takes to get started! However, while you can use this script as-is, it's intended to be a starting point 
-to do your own thing with your verizon points. (Bid on an auction, enter a different sweepstakes, or just rack up points 
-without spending them.)
+to do your own thing. See http://sweetiessweeps.com/ for lots more sweepstakes.
 
 Heroku Usage
 ------------

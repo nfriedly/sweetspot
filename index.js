@@ -25,7 +25,7 @@ if (process.env.SOURCE) {
 }
 console.log('Running CasperJS script...');
 
-var args = ['newegg-bot.casper.js'];
+var args = ['sweeps-bot.casper.js'];
 if (process.env.SOURCE != 'localdev') {
     args.push('--slow');
 }
@@ -49,13 +49,13 @@ contents = uncolor(contents);
 var email = {
     to: process.env.EMAIL,
     from: process.env.EMAIL,
-    subject: '[newegg-bot] ' + (result.status === 0 ?  'Success' : 'Error') ,
+    subject: '[sweeps-bot] ' + (result.status === 0 ?  'Success' : 'Error') ,
     text: contents,
     html: contents.replace(/\n/g, '<br>'),
     attachments: []
 };
 
-fs.readdir('./', function(err, files) {
+fs.readdir('./screenshots/', function(err, files) {
 
     function getRandomId() {
         return parseInt(Math.random().toString().slice(2), 10).toString(36);
@@ -67,10 +67,18 @@ fs.readdir('./', function(err, files) {
         var cid = getRandomId() + '@screen.png';
         email.attachments.push({
             filename: name,
-            content: fs.readFileSync('./' + name), // read the file into memory so that we can delete it right away
+            content: fs.readFileSync('./screenshots/' + name), // read the file into memory so that we can delete it right away
             cid: cid
         });
-        email.html += '<br><br>' + name + ':<br><img src="cid:' + cid + '"/>';
+        // try to put the images inline with their sweeps
+        var replaceTarget = '<' + name + '>';
+        var replaceValue = '<br>' + name + ':<br><img src="cid:' + cid + '"/>';
+        if(email.html.indexOf(replaceTarget) != -1) {
+            email.replace(replaceTarget, replaceValue);
+        } else {
+            // append the image to the end if we can't find the sweeps it goes with
+            email.html += '<br>' + replaceValue;
+        }
         fs.unlinkSync('./' + name); // delete the file so we don't accidentally send the same screenshot twice
     });
 

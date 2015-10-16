@@ -345,6 +345,33 @@ addSweeps('bobvila', 'October 31, 2015 11:59 am EST', 'http://www.bobvila.com/co
     });
 });
 
+addSweeps('ford mud makeover', 'October 31, 2015 11:59 PM EST', 'https://www.fordmudmode.com/Index.aspx', function() {
+    this.fill('#aspnetForm', {
+        'ctl00$ContentPlaceHolder1$txtEmail': email
+    }, false);
+    this.click('#ctl00_ContentPlaceHolder1_btnEnterSweepstakes');
+    this.then(function(){
+        this.fill('#aspnetForm', {
+            "ctl00$ContentPlaceHolder1$txtFirstName": first,
+            "ctl00$ContentPlaceHolder1$txtLastName": last,
+            "ctl00$ContentPlaceHolder1$txtAddress1": addr,
+            "ctl00$ContentPlaceHolder1$txtCity": city,
+            "ctl00$ContentPlaceHolder1$lstState": state,
+            "ctl00$ContentPlaceHolder1$txtZipCode": zip,
+            "ctl00$ContentPlaceHolder1$txtPhone": phone,
+            "ctl00$ContentPlaceHolder1$txtEmail": email,
+            "ctl00$ContentPlaceHolder1$txtConfirmEmail": email,
+            "ctl00$ContentPlaceHolder1$MaleFemale": "rbMale",
+            "ctl00$ContentPlaceHolder1$lstPrimaryVehicleMake": 'HON',
+            "ctl00$ContentPlaceHolder1$lstWhenPurchaseVehicle": 'No Definite Plans'
+        }, false);
+        this.click('#ctl00_ContentPlaceHolder1_cbMinAge');
+        this.click('#ctl00_ContentPlaceHolder1_cbAgreeTermsOfUseAndFordPolicy');
+        this.click('#ctl00_ContentPlaceHolder1_imgbtnEnterSweepstakes');
+    });
+    this.waitForText('THANK YOU');
+});
+
 addSweeps('toshiba fantastic four', '1/31/2016 11:59 PM PST', 'https://www.toshibafantastic4sweeps.com/#/home/splash', function() {
     casper.waitForSelector('form[name="splashForm"]', function() {
         this.fill('form[name="splashForm"]', {
@@ -382,6 +409,11 @@ addSweeps('toshiba fantastic four', '1/31/2016 11:59 PM PST', 'https://www.toshi
         this.debugHTML(); //todo: figure out success identifier
     })
 });
+
+//JSON.stringify(jQuery('form').serializeArray().reduce(function(res, cur){res[cur.name] = null; return res;}, {}), null, 2)
+//this.wait(3000, function() {
+//    this.debugHTML(); //todo: figure out success identifier
+//})
 
 casper.run(function() {
     this.exit(returnCode);

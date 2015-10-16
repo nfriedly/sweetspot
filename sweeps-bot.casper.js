@@ -44,9 +44,7 @@ casper.userAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:40.0) Gecko/2
 
 
 if (!only) {
-
     casper.then(function() {
-
         this.echo('captcha\'d sweepstakes:');
         [
             {url: 'http://littlehuglunchboxsurprise.com/enter_online/', end: 'October 30, 2015 10:00 AM EST'},
@@ -71,6 +69,16 @@ if (!only) {
             this.capture('./screenshots/facebook.png');
         }
     });
+}
+
+// for sweeps like newegg's that require a minimum of 24 hours between entries
+// may cause a missed entry on the 1st of each month...
+if (slow && !only) {
+    delay = (new Date().getDate())*2 + Math.random();
+    casper.then(function() {
+        this.echo('waiting ' + delay + ' minutes');
+    });
+    casper.wait((delay*60)*1000);
 }
 
 function shortWait() {
@@ -103,15 +111,6 @@ function addSweeps(name, end, startUrl, enter) {
     }
 }
 
-function min24Hours() {
-    if (slow) {
-        delay = (new Date().getDate()-10)*2 + Math.random();
-        casper.then(function() {
-            this.echo('waiting ' + delay + ' minutes');
-        });
-        casper.wait((delay*60)*1000);
-    }
-}
 
 var first = 'Nathan',
     last = 'Friedly',
@@ -123,12 +122,11 @@ var first = 'Nathan',
     email = 'nathan.friedly@gmail.com';
 
 addSweeps('game like a pro sweepstakes', 'October 19, 2015 11:59 PM PST', 'http://promotions.newegg.com/nepro/15-4467/index.html?cm_mmc=SNC-twitter-_-sweeps-gamelikeapro-_-NA-_-NA&hootPostID=c49f68517f9091193f9c824d975962f9', function() {
-    min24Hours();
     casper.withFrame(0, function() {
         //this.capture('./screen.png');
         //this.debugHTML();
         this.fill('#form_form', {
-            'form[email]': 'nathan.friedly+newegg@gmail.com',
+            'form[email]': email,
             'form[first_name]': first,
             'form[last_name]': last,
             'form[address_1]': addr,
@@ -144,12 +142,11 @@ addSweeps('game like a pro sweepstakes', 'October 19, 2015 11:59 PM PST', 'http:
 });
 
 addSweeps('gamecrate lucky 13 corsair giveaway', 'November 13, 2015 11:59 PM PST', 'http://www.gamecrate.com/lucky-13-corsair-giveaway/11352?cm_mmc=SNC-Facebook-_-NA-_-GameCrate-lucky13corsair-_-NA', function() {
-    min24Hours();
     casper.withFrame(0, function() {
         //this.capture('./screen.png');
         //this.debugHTML();
         this.fill('#form_form', {
-            'form[email]': 'nathan.friedly+newegg@gmail.com',
+            'form[email]': email,
             'form[first_name]': first,
             'form[last_name]': last,
             'form[address_1]': addr,

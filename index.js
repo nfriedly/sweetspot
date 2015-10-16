@@ -74,7 +74,7 @@ fs.readdir('./screenshots/', function(err, files) {
         var replaceTarget = '<' + name + '>';
         var replaceValue = '<br>' + name + ':<br><img src="cid:' + cid + '"/>';
         if(email.html.indexOf(replaceTarget) != -1) {
-            email.replace(replaceTarget, replaceValue);
+            email.html.replace(replaceTarget, replaceValue);
         } else {
             // append the image to the end if we can't find the sweeps it goes with
             email.html += '<br>' + replaceValue;

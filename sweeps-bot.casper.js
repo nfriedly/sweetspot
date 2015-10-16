@@ -10,7 +10,7 @@ var errCount = 0;
 function handleTimeout() {
     /*jshint validthis:true */
     this.debugHTML();
-    this.echo("Timeout reached");
+    this.echo("Timeout reached on " + this.getCurrentUrl());
     errCount++;
     var name = 'timeout-' + errCount + '.png';
     this.capture('./screenshots/' + name);
@@ -22,7 +22,7 @@ var casper = require('casper').create({
     //verbose: true,
     //logLevel: 'debug'
     onError: function(casperInstance, errorMessage /*, engine*/) {
-        this.echo("Error: " + errorMessage);
+        this.echo("Error: " + errorMessage +  " on " + this.getCurrentUrl());
         errCount++;
         var name = 'error-' + errCount + '.png';
         this.capture('./screenshots/' + name);
@@ -204,6 +204,147 @@ addSweeps('nissan voice', '11/4/2015 10:00 am PST', 'http://www.nbc.com/the-voic
     });
 });
 
+addSweeps('ziploc', 'December 31, 2015 10:59:59 pm CST', 'https://holiday.ziploc.com/', function() {
+    this.fill('#emailFormLogin', {Identifier: email}, true);
+    this.waitFor(function() {
+        return this.evaluate(function() {
+            /*globals window*/
+            return window.onEndedEvent;
+        });
+    });
+    this.then(function() {
+        this.evaluate(function() {
+            /*globals window*/
+            window.onEndedEvent(); // videos won't play in casper, so we have to trigger the end manually
+        });
+    });
+    this.waitForSelector('#reveal_btn', function() {
+        this.click('#reveal_btn');
+    });
+    this.wait(3000, function() {
+        this.debugHTML(); //todo: figure out success identifier
+    })
+
+});
+
+addSweeps('sky viper', 'October 18, 2015 11:59 AM PST', 'http://www.fbpagetab.com/Skyrocket/SkyViper/Enter.html', function() {
+    this.waitForSelector('form', function() {
+        this.fill('form', {
+            q1_firstName: first,
+            q3_email3: email,
+            q4_zipCode: zip,
+        }, true);
+    });
+    this.wait(3000, function() {
+        this.debugHTML(); //todo: figure out success identifier
+    })
+});
+
+
+// requires pre-registration (with captca)
+addSweeps('twix', 'December 31, 2015 11:59:59 am EST', 'https://www.vote4twix.mars.com/', function() {
+    this.evaluate(function() {
+        /*globals $*/
+        $('#PL_AgeGate_Birthdate_month').val('8').trigger('change');
+        $('#PL_AgeGate_Birthdate_day').val('1').trigger('change');
+        $('#PL_AgeGate_Birthdate_year').val('1986').trigger('change');
+        $('input[type="submit"]').click();
+    });
+    this.wait(500);
+    this.then(function() {
+        this.fill('#emailFormLogin', {
+            Identifier: 'nathan.friedly+twix@gmail.com'
+        }, true)
+    });
+    shortWait();
+    this.waitUntilVisible('label[for="btnCHOCO"]', function() {
+        this.click('label[for="btnCHOCO"]');
+    });
+    this.waitForText('Thanks for voting!');
+});
+
+// boss: JSON.stringify(jQuery('form').serializeArray().reduce(function(res, cur){res[cur.name] = null; return res;}, {}), null, 2)
+addSweeps('pepsi trailer', 'October 31, 2015 11:59 PM EST', 'https://unlockthetrailer.com/', function() {
+    this.fill('#form1', {
+        "txtEmail": email,
+        "txtFirstName": first,
+        "txtLastName": last,
+        "ddlMonths": '8',
+        "ddlDay": '1',
+        "ddlYear": '1986',
+        "txtAddress1": addr,
+        "txtCity": city,
+        "ddlState": 'Ohio',
+        "txtZip": zip,
+        "txtPhone": '9374091337',
+    });
+    this.click('#chkTermsAndConditions');
+    this.click('#btnSubmit');
+    this.waitForText('Thank You!');
+});
+
+////todo: add http://sweetiessweeps.com/2015/09/hgtv-com-fresh-faces-of-designawards-sweepstakes.html now that I'm registered
+//addSweeps('hgtv', 'October 30, 2015 5:00 pm EST', 'http://www.hgtv.com/design/fresh-faces-of-design/sweepstakes', function() {
+//
+//});
+
+addSweeps('reese', 'October 29, 2015 2:00 pm EST', 'http://www.reesespecialtyfoods.com/promotions', function() {
+    this.waitUntilVisible('.group-wof-sweeps-content', function() {
+        this.clickLabel('Enter Now', 'a')
+    });
+    this.waitUntilVisible('#wof-group1', function() {
+        this.fill('#reese-world-of-flavor-sweeps-entityform-edit-form', {
+            "field_wofs_email[und][0][email]": email,
+            "field_wofs_first_name[und][0][value]": first,
+            "field_wofs_last_name[und][0][value]": last,
+        }, false);
+        this.click('#form-control-next');
+    });
+    this.waitUntilVisible('#wof-group2', function() {
+        this.fill('#reese-world-of-flavor-sweeps-entityform-edit-form', {
+
+            "field_wofs_address[und][0][thoroughfare]": addr,
+            "field_wofs_address[und][0][locality]": city,
+            "field_wofs_address[und][0][administrative_area]": state,
+            "field_wofs_address[und][0][postal_code]": zip,
+        }, false);
+        this.click('#form-control-next');
+    });
+    this.waitUntilVisible('#wof-group3', function() {
+        this.fill('#reese-world-of-flavor-sweeps-entityform-edit-form', {
+            "field_wofs_address[und][0][thoroughfare]": addr,
+            "field_wofs_telephone[und][0][value]": phone,
+        }, false);
+        this.click('#form-control-next');
+    });
+    this.waitUntilVisible('#edit-field-wofs-age-check-und', function() {
+        this.click('#edit-field-wofs-age-check-und');
+        this.click('#edit-field-wofs-official-rules-und');
+        this.click('#edit-field-wofs-privacy-policy-und');
+        this.click('#edit-submit');
+    });
+    this.wait(3000, function() {
+        this.debugHTML();
+        // todo: figure out success text
+    })
+});
+
+
+addSweeps('bobvila', 'October 31, 2015 11:59 am EST', 'http://www.bobvila.com/contest/kitchen-appliance-give-away', function(){
+    this.waitForSelector('#new_contest_registration', function() {
+        this.click('#contest_registration_newsletter');
+        this.click('#contest_registration_partner');
+        this.fill('#new_contest_registration', {
+            "contest_registration[first_name]": first,
+            "contest_registration[email]": email,
+            "contest_registration[prize_choice]": 66,
+            "contest_registration[newsletter]": false,
+            "contest_registration[partner]": false,
+        }, true);
+        this.waitForText('Thank You for Entering');
+    });
+});
+
 addSweeps('toshiba fantastic four', '1/31/2016 11:59 PM PST', 'https://www.toshibafantastic4sweeps.com/#/home/splash', function() {
     casper.waitForSelector('form[name="splashForm"]', function() {
         this.fill('form[name="splashForm"]', {
@@ -237,38 +378,10 @@ addSweeps('toshiba fantastic four', '1/31/2016 11:59 PM PST', 'https://www.toshi
     casper.then(function() {
         this.click('button.btn-primary');
     });
-    casper.wait(3000);
-    // todo: figure out what text/emement to wait for
+    this.wait(3000, function() {
+        this.debugHTML(); //todo: figure out success identifier
+    })
 });
-
-addSweeps('ziploc', 'December 31, 2015 10:59:59 pm CST', 'https://holiday.ziploc.com/', function() {
-    this.fill('#emailFormLogin', {Identifier: email}, true);
-    this.waitFor(function() {
-        return this.evaluate(function() {
-            /*globals window*/
-            return window.onEndedEvent;
-        });
-    });
-    this.then(function() {
-        this.evaluate(function() {
-            /*globals window*/
-            window.onEndedEvent(); // videos won't play in casper, so we have to trigger the end manually
-        });
-    });
-    this.waitForUrl('Register');
-    //this.waitUntilVisible('h2.omnesMed.fs20.redCC');
-});
-
-addSweeps('sky viper', 'October 18, 2015 11:59 AM PST', 'https://www.fbpagetab.com/Skyrocket/SkyViper/Enter.html', function() {
-    this.fill('form', {
-        q1_firstName: first,
-        q3_email3: email,
-        q4_zipCode: zip,
-    }, true);
-});
-
-
-//todo: add https://www.vote4twix.mars.com/
 
 casper.run(function() {
     this.exit(returnCode);

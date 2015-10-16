@@ -1,7 +1,7 @@
 Newegg Sweepstakes Bot
 ===============================
 
-Helps you enter / remember to enter various sweepstakes.
+Helps you enter / remember to enter "once per day" sweepstakes.
 
 Installation
 ------------

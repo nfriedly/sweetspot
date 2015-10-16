@@ -49,7 +49,7 @@ if (!only) {
         [
             {url: 'http://littlehuglunchboxsurprise.com/enter_online/', end: 'October 30, 2015 10:00 AM EST'},
             {url: 'http://www.crazyexsweepstakes.com/', end: 'October 19, 2015 10:59:59 pm cst'},
-            {url: 'https://holiday.ziploc.com/', end: 'December 31, 2015 10:59:59 pm cst'},
+            {url: 'http://www.behindthesigngiveaway.com/', end: 'October 31, 2015 10:59:59 pm mst'},
             {url: 'https://doubleshotpromo.com/', end: 'October 30, 2015  11:59:59 pm EST'}
         ].forEach(function(s){
             if (today < new Date(s.end)) {
@@ -223,7 +223,7 @@ addSweeps('ziploc', 'December 31, 2015 10:59:59 pm CST', 'https://holiday.ziploc
     });
     this.wait(3000, function() {
         this.debugHTML(); //todo: figure out success identifier
-    })
+    });
 
 });
 
@@ -237,7 +237,7 @@ addSweeps('sky viper', 'October 18, 2015 11:59 AM PST', 'http://www.fbpagetab.co
     });
     this.wait(3000, function() {
         this.debugHTML(); //todo: figure out success identifier
-    })
+    });
 });
 
 
@@ -254,7 +254,7 @@ addSweeps('twix', 'December 31, 2015 11:59:59 am EST', 'https://www.vote4twix.ma
     this.then(function() {
         this.fill('#emailFormLogin', {
             Identifier: 'nathan.friedly+twix@gmail.com'
-        }, true)
+        }, true);
     });
     shortWait();
     this.waitUntilVisible('label[for="btnCHOCO"]', function() {
@@ -290,7 +290,7 @@ addSweeps('pepsi trailer', 'October 31, 2015 11:59 PM EST', 'https://unlockthetr
 
 addSweeps('reese', 'October 29, 2015 2:00 pm EST', 'http://www.reesespecialtyfoods.com/promotions', function() {
     this.waitUntilVisible('.group-wof-sweeps-content', function() {
-        this.clickLabel('Enter Now', 'a')
+        this.clickLabel('Enter Now', 'a');
     });
     this.waitUntilVisible('#wof-group1', function() {
         this.fill('#reese-world-of-flavor-sweeps-entityform-edit-form', {
@@ -326,7 +326,7 @@ addSweeps('reese', 'October 29, 2015 2:00 pm EST', 'http://www.reesespecialtyfoo
     this.wait(3000, function() {
         this.debugHTML();
         // todo: figure out success text
-    })
+    });
 });
 
 
@@ -407,7 +407,7 @@ addSweeps('toshiba fantastic four', '1/31/2016 11:59 PM PST', 'https://www.toshi
     });
     this.wait(3000, function() {
         this.debugHTML(); //todo: figure out success identifier
-    })
+    });
 });
 
 //JSON.stringify(jQuery('form').serializeArray().reduce(function(res, cur){res[cur.name] = null; return res;}, {}), null, 2)

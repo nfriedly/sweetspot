@@ -87,6 +87,7 @@ function shortWait() {
     }
 }
 
+var skipScreenshot = false,
 function addSweeps(name, end, startUrl, enter) {
     if (only &&  only != name) {
         return;
@@ -95,14 +96,18 @@ function addSweeps(name, end, startUrl, enter) {
         casper.then(function () {
             this.echo('beginning ' + name + ' - ' + startUrl);
         });
-        casper.thenOpen(startUrl);
+        casper.thenOpen(startUrl, function(){
+skipScreenshot = false;
+});
         shortWait();
         casper.then(enter);
         casper.then(function() {
+if(!skipScreenshot){
             var filename = name.replace(/[^a-z0-9]+/ig, ' ').trim().replace(/\s+/g, '-') + '.png';
             this.capture('./screenshots/' + filename);
             this.echo('done with ' + name);
             this.echo('<' + filename + '>');
+}
         });
     } else {
         casper.then(function () {
@@ -137,7 +142,7 @@ addSweeps('game like a pro sweepstakes', 'October 19, 2015 11:59 PM PST', 'http:
             'form[age]': '29'
         }, true);
 
-        casper.waitForText("Thank you for your submission");
+        casper.waitForText("Thank you for your submission", function(){skipScreenshot = true;});
     });
 });
 
@@ -157,7 +162,7 @@ addSweeps('gamecrate lucky 13 corsair giveaway', 'November 13, 2015 11:59 PM PST
             'form[age]': '29'
         }, true);
 
-        casper.waitForText("Thank you for your submission");
+        casper.waitForText("Thank you for your submission", function(){skipScreenshot = true;});
     });
 });
 
@@ -183,7 +188,7 @@ addSweeps('hotwheels honda hr-v', '10/27/15 10:00 am PST', 'https://hotwheels.ve
             '#optin_honda': false
         }, true);
     });
-    casper.waitForText('Thanks for entering');
+    casper.waitForText('Thanks for entering', function(){skipScreenshot = true;});
 });
 
 addSweeps('nissan voice', '11/4/2015 10:00 am PST', 'http://www.nbc.com/the-voice/nissan', function() {
@@ -200,12 +205,14 @@ addSweeps('nissan voice', '11/4/2015 10:00 am PST', 'http://www.nbc.com/the-voic
             'zip-code': zip,
             //'rules-check': true
         }, true);
-        casper.waitForResource('https://www.nbc.com/spt/nsweeps/nis_success_d.png');
+        casper.waitForResource('https://www.nbc.com/spt/nsweeps/nis_success_d.png', function(){skipScreenshot = true;});
     });
 });
 
-addSweeps('ziploc', 'December 31, 2015 10:59:59 pm CST', 'https://holiday.ziploc.com/', function() {
+addSweeps('ziploc', 'December 31, 2015 10:59:59 pm CST', 'https://holiday.ziploc.com/', function ziploc() {
+this.waitForSelector('#emailFormLogin', function() {
     this.fill('#emailFormLogin', {Identifier: email}, true);
+});
     this.waitFor(function() {
         return this.evaluate(function() {
             /*globals window*/
@@ -222,7 +229,7 @@ addSweeps('ziploc', 'December 31, 2015 10:59:59 pm CST', 'https://holiday.ziploc
         this.click('#reveal_btn');
     });
     this.wait(3000, function() {
-        this.debugHTML(); //todo: figure out success identifier
+       // this.debugHTML(); //todo: figure out success identifier
     });
 
 });
@@ -236,7 +243,7 @@ addSweeps('sky viper', 'October 18, 2015 11:59 AM PST', 'http://www.fbpagetab.co
         }, true);
     });
     this.wait(3000, function() {
-        this.debugHTML(); //todo: figure out success identifier
+       // this.debugHTML(); //todo: figure out success identifier
     });
 });
 
@@ -260,11 +267,12 @@ addSweeps('twix', 'December 31, 2015 11:59:59 am EST', 'https://www.vote4twix.ma
     this.waitUntilVisible('label[for="btnCHOCO"]', function() {
         this.click('label[for="btnCHOCO"]');
     });
-    this.waitForText('Thanks for voting!');
+    this.waitForText('Thanks for voting!', function(){skipScreenshot = true;});
 });
 
 // boss: JSON.stringify(jQuery('form').serializeArray().reduce(function(res, cur){res[cur.name] = null; return res;}, {}), null, 2)
-addSweeps('pepsi trailer', 'October 31, 2015 11:59 PM EST', 'https://unlockthetrailer.com/', function() {
+addSweeps('pepsi trailer', 'October 31, 2015 11:59 PM EST', 'https://unlockthetrailer.com/', function Pepsi() {
+this.waitForSelector('#form1', function(){
     this.fill('#form1', {
         "txtEmail": email,
         "txtFirstName": first,
@@ -280,7 +288,8 @@ addSweeps('pepsi trailer', 'October 31, 2015 11:59 PM EST', 'https://unlockthetr
     });
     this.click('#chkTermsAndConditions');
     this.click('#btnSubmit');
-    this.waitForText('Thank You!');
+});
+    this.waitForText('Thank You!', function(){skipScreenshot = true;});
 });
 
 ////todo: add http://sweetiessweeps.com/2015/09/hgtv-com-fresh-faces-of-designawards-sweepstakes.html now that I'm registered
@@ -324,7 +333,7 @@ addSweeps('reese', 'October 29, 2015 2:00 pm EST', 'http://www.reesespecialtyfoo
         this.click('#edit-submit');
     });
     this.wait(3000, function() {
-        this.debugHTML();
+     //   this.debugHTML();
         // todo: figure out success text
     });
 });
@@ -341,7 +350,7 @@ addSweeps('bobvila', 'October 31, 2015 11:59 am EST', 'http://www.bobvila.com/co
             "contest_registration[newsletter]": false,
             "contest_registration[partner]": false,
         }, true);
-        this.waitForText('Thank You for Entering');
+        this.waitForText('Thank You for Entering', function(){skipScreenshot = true;});
     });
 });
 
@@ -369,7 +378,7 @@ addSweeps('ford mud makeover', 'October 31, 2015 11:59 PM EST', 'https://www.for
         this.click('#ctl00_ContentPlaceHolder1_cbAgreeTermsOfUseAndFordPolicy');
         this.click('#ctl00_ContentPlaceHolder1_imgbtnEnterSweepstakes');
     });
-    this.waitForText('THANK YOU');
+    this.waitForText('THANK YOU', function(){skipScreenshot = true;});
 });
 
 addSweeps('toshiba fantastic four', '1/31/2016 11:59 PM PST', 'https://www.toshibafantastic4sweeps.com/#/home/splash', function() {
@@ -406,7 +415,7 @@ addSweeps('toshiba fantastic four', '1/31/2016 11:59 PM PST', 'https://www.toshi
         this.click('button.btn-primary');
     });
     this.wait(3000, function() {
-        this.debugHTML(); //todo: figure out success identifier
+        //this.debugHTML(); //todo: figure out success identifier
     });
 });
 

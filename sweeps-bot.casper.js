@@ -397,6 +397,9 @@ addSweeps('toshiba fantastic four', '1/31/2016 11:59 PM PST', 'https://www.toshi
     casper.then(function() {
         this.click('button.btn-primary');
     });
+
+// this part is first-time only
+/*
     casper.waitUntilVisible('form[name="registerForm"]', function() {
         this.click('div.checkbox label');
         this.fill('form[name="registerForm"]', {
@@ -406,7 +409,7 @@ addSweeps('toshiba fantastic four', '1/31/2016 11:59 PM PST', 'https://www.toshi
             phone: phone
         }, false);
         this.evaluate(function() {
-            /*globals jQuery*/
+            /*globals jQuery
             jQuery('#firstNameInput, #lastNameInput, #address1Input, #phoneInput').trigger('change');
         });
     });
@@ -414,9 +417,9 @@ addSweeps('toshiba fantastic four', '1/31/2016 11:59 PM PST', 'https://www.toshi
     casper.then(function() {
         this.click('button.btn-primary');
     });
-    this.wait(3000, function() {
-        //this.debugHTML(); //todo: figure out success identifier
-    });
+*/
+
+    this.waitForText('You are not an instant winner', function(){skipScreenshot = true;});
 });
 
 //JSON.stringify(jQuery('form').serializeArray().reduce(function(res, cur){res[cur.name] = null; return res;}, {}), null, 2)

@@ -79,7 +79,7 @@ fs.readdir('./screenshots/', function(err, files) {
             // append the image to the end if we can't find the sweeps it goes with
             email.html += '<br>' + replaceValue;
         }
-        fs.unlinkSync('./' + name); // delete the file so we don't accidentally send the same screenshot twice
+        fs.unlinkSync('./screenshots/' + name); // delete the file so we don't accidentally send the same screenshot twice
     });
 
 

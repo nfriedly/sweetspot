@@ -87,7 +87,7 @@ function shortWait() {
     }
 }
 
-var skipScreenshot = false,
+var skipScreenshot = false;
 function addSweeps(name, end, startUrl, enter) {
     if (only &&  only != name) {
         return;

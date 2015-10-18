@@ -23,33 +23,47 @@ console.log(require('./package.json').name + ' starting on ' + new Date().toUTCS
 if (process.env.SOURCE) {
     console.log("Source: " + process.env.SOURCE);
 }
-console.log('Running CasperJS script...');
 
-var args = ['sweeps-bot.casper.js'];
-if (process.env.SOURCE != 'localdev') {
-    args.push('--slow');
+var allResults = [];
+var allSuccess = true;
+
+var scripts = fs.readdirSync('./sweeps/');
+scripts.filter(function (name) {
+    return path.extname(name) == '.js';
+}).forEach(function (script) {
+    console.log('running %s...', script);
+    var args = ['sweeps/' + script];
+    if (process.env.SOURCE != 'localdev') {
+        args.push('--slow');
+    }
+
+    // todo: run these in parallel - maybe with native promises!
+    var result = cp.spawnSync('casperjs', args);
+
+    allResults.push(result.stdout.toString());
+    allSuccess = allSuccess && (result.status === 0);
+
+    //todo: read screenshots here in case there happen to be conflicting names
+
+    console.log(result.stdout.toString());
+    console.error(result.stderr.toString());
+});
+
+if (!process.env.EMAIL) {
+    process.exit(allSuccess ? 0 : 1);
 }
-var result = cp.spawnSync('casperjs', args);
-
-
-console.log(result.stdout.toString());
-console.error(result.stderr.toString());
 
 console.log('Emailing results to %s', process.env.EMAIL);
 
 
-var contents = [
-    'stdout:', result.stdout.toString(),
-    '',
-    'stderr:', result.stderr.toString()
-].join('\n');
+var contents = allResults.join('\n');
 
 contents = uncolor(contents);
 
 var email = {
     to: process.env.EMAIL,
     from: process.env.EMAIL,
-    subject: '[sweeps-bot] ' + (result.status === 0 ?  'Success' : 'Error') ,
+    subject: '[sweeps-bot] ' + (allSuccess ?  'Success' : 'Error') ,
     text: contents,
     html: contents.replace(/\n/g, '<br>'),
     attachments: []
@@ -88,7 +102,7 @@ fs.readdir('./screenshots/', function(err, files) {
             console.error(err);
         }
         console.log(res);
-        process.exit(result.status);
+        process.exit(allSuccess ? 0 : 1);
     });
 });
 

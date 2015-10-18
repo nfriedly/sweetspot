@@ -73,13 +73,7 @@ if (!only) {
 
 // for sweeps like newegg's that require a minimum of 24 hours between entries
 // may cause a missed entry on the 1st of each month...
-if (slow && !only) {
-    delay = (new Date().getDate()) * 2 + Math.random();
-    casper.then(function () {
-        this.echo('waiting ' + delay + ' minutes');
-    });
-    casper.wait((delay * 60) * 1000);
-}
+git
 
 function shortWait() {
     if (slow) {
@@ -201,20 +195,22 @@ addSweeps('hotwheels honda hr-v', '10/27/15 10:00 am PST', 'https://hotwheels.ve
 
 addSweeps('nissan voice', '11/4/2015 10:00 am PST', 'http://www.nbc.com/the-voice/nissan', function () {
     casper.withFrame(0, function () {
-        this.click('label.rules-check');
-        this.fill('#sweepstakes_pom', {
-            'first-name': first,
-            'last-name': last,
-            'email': email,
-            'phone': phone,
-            'month': '08',
-            'day': '01',
-            'year': '1986',
-            'zip-code': zip,
-            //'rules-check': true
-        }, true);
-        casper.waitForResource('https://www.nbc.com/spt/nsweeps/nis_success_d.png', function () {
-            entryConfirmed = true;
+        this.waitForSelector('label.rules-check', function() {
+            this.click('label.rules-check');
+            this.fill('#sweepstakes_pom', {
+                'first-name': first,
+                'last-name': last,
+                'email': email,
+                'phone': phone,
+                'month': '08',
+                'day': '01',
+                'year': '1986',
+                'zip-code': zip,
+                //'rules-check': true
+            }, true);
+            casper.waitForResource('https://www.nbc.com/spt/nsweeps/nis_success_d.png', function () {
+                entryConfirmed = true;
+            });
         });
     });
 });
@@ -229,12 +225,12 @@ addSweeps('ziploc', 'December 31, 2015 10:59:59 pm CST', 'https://holiday.ziploc
             return window.onEndedEvent;
         });
     });
-    this.then(function () {
-        this.evaluate(function () {
-            /*globals window*/
-            window.onEndedEvent(); // videos won't play in casper, so we have to trigger the end manually
-        });
-    });
+    //this.then(function () {
+    //    this.evaluate(function () {
+    //        /*globals window*/
+    //        window.onEndedEvent(); // videos won't play in casper, so we have to trigger the end manually
+    //    });
+    //});
     this.waitForSelector('#reveal_btn', function () {
         this.click('#reveal_btn');
     });
@@ -252,7 +248,7 @@ addSweeps('sky viper', 'October 18, 2015 11:59 AM PST', 'http://www.fbpagetab.co
             q4_zipCode: zip,
         }, true);
     });
-    this.wait(3000, function () {
+    this.wait(5000, function () {
         // this.debugHTML(); //todo: figure out success identifier
     });
 });
@@ -346,10 +342,7 @@ addSweeps('reese', 'October 29, 2015 2:00 pm EST', 'http://www.reesespecialtyfoo
         this.click('#edit-field-wofs-privacy-policy-und');
         this.click('#edit-submit');
     });
-    this.wait(3000, function () {
-        //   this.debugHTML();
-        // todo: figure out success text
-    });
+    this.waitForText('Thank you for entering!');
 });
 
 
@@ -375,26 +368,31 @@ addSweeps('ford mud makeover', 'October 31, 2015 11:59 PM EST', 'https://www.for
         'ctl00$ContentPlaceHolder1$txtEmail': email
     }, false);
     this.click('#ctl00_ContentPlaceHolder1_btnEnterSweepstakes');
-    this.then(function () {
-        this.fill('#aspnetForm', {
-            "ctl00$ContentPlaceHolder1$txtFirstName": first,
-            "ctl00$ContentPlaceHolder1$txtLastName": last,
-            "ctl00$ContentPlaceHolder1$txtAddress1": addr,
-            "ctl00$ContentPlaceHolder1$txtCity": city,
-            "ctl00$ContentPlaceHolder1$lstState": state,
-            "ctl00$ContentPlaceHolder1$txtZipCode": zip,
-            "ctl00$ContentPlaceHolder1$txtPhone": phone,
-            "ctl00$ContentPlaceHolder1$txtEmail": email,
-            "ctl00$ContentPlaceHolder1$txtConfirmEmail": email,
-            "ctl00$ContentPlaceHolder1$MaleFemale": "rbMale",
-            "ctl00$ContentPlaceHolder1$lstPrimaryVehicleMake": 'HON',
-            "ctl00$ContentPlaceHolder1$lstWhenPurchaseVehicle": 'No Definite Plans'
-        }, false);
-        this.click('#ctl00_ContentPlaceHolder1_cbMinAge');
-        this.click('#ctl00_ContentPlaceHolder1_cbAgreeTermsOfUseAndFordPolicy');
-        this.click('#ctl00_ContentPlaceHolder1_imgbtnEnterSweepstakes');
-    });
-    this.waitForText('THANK YOU', function () {
+    // first time only
+    //this.then(function () {
+    //    this.fill('#aspnetForm', {
+    //        "ctl00$ContentPlaceHolder1$txtFirstName": first,
+    //        "ctl00$ContentPlaceHolder1$txtLastName": last,
+    //        "ctl00$ContentPlaceHolder1$txtAddress1": addr,
+    //        "ctl00$ContentPlaceHolder1$txtCity": city,
+    //        "ctl00$ContentPlaceHolder1$lstState": state,
+    //        "ctl00$ContentPlaceHolder1$txtZipCode": zip,
+    //        "ctl00$ContentPlaceHolder1$txtPhone": phone,
+    //        "ctl00$ContentPlaceHolder1$txtEmail": email,
+    //        "ctl00$ContentPlaceHolder1$txtConfirmEmail": email,
+    //        "ctl00$ContentPlaceHolder1$MaleFemale": "rbMale",
+    //        "ctl00$ContentPlaceHolder1$lstPrimaryVehicleMake": 'HON',
+    //        "ctl00$ContentPlaceHolder1$lstWhenPurchaseVehicle": 'No Definite Plans'
+    //    }, false);
+    //    this.click('#ctl00_ContentPlaceHolder1_cbMinAge');
+    //    this.click('#ctl00_ContentPlaceHolder1_cbAgreeTermsOfUseAndFordPolicy');
+    //    this.click('#ctl00_ContentPlaceHolder1_imgbtnEnterSweepstakes');
+    //});
+    //this.waitForText('THANK YOU', function () {
+    //    entryConfirmed = true;
+    //});
+    // after first time
+    this.waitForResource('https://www.fordmudmode.com/img/thankyou-sweeps.jpg', function() {
         entryConfirmed = true;
     });
 });

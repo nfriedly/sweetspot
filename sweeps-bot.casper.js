@@ -9,7 +9,7 @@ var errCount = 0;
 
 function handleTimeout() {
     /*jshint validthis:true */
-    this.debugHTML();
+    //this.debugHTML();
     this.echo("Timeout reached on " + this.getCurrentUrl());
     errCount++;
     var name = 'timeout-' + errCount + '.png';
@@ -73,7 +73,13 @@ if (!only) {
 
 // for sweeps like newegg's that require a minimum of 24 hours between entries
 // may cause a missed entry on the 1st of each month...
-git
+if (slow && !only) {
+    delay = (new Date().getDate()) * 2 + Math.random();
+    casper.then(function () {
+        this.echo('waiting ' + delay + ' minutes');
+    });
+    casper.wait((delay * 60) * 1000);
+}
 
 function shortWait() {
     if (slow) {
@@ -82,6 +88,10 @@ function shortWait() {
 }
 
 var entryConfirmed = false;
+function recordEntryConfirmed() {
+    entryConfirmed = true;
+}
+
 function addSweeps(name, end, startUrl, enter) {
     if (only && only != name) {
         return;
@@ -188,9 +198,7 @@ addSweeps('hotwheels honda hr-v', '10/27/15 10:00 am PST', 'https://hotwheels.ve
             '#optin_honda': false
         }, true);
     });
-    casper.waitForText('Thanks for entering', function () {
-        entryConfirmed = true;
-    });
+    casper.waitForText('Thanks for entering', recordEntryConfirmed);
 });
 
 addSweeps('nissan voice', '11/4/2015 10:00 am PST', 'http://www.nbc.com/the-voice/nissan', function () {
@@ -273,12 +281,9 @@ addSweeps('twix', 'December 31, 2015 11:59:59 am EST', 'https://www.vote4twix.ma
     this.waitUntilVisible('label[for="btnCHOCO"]', function () {
         this.click('label[for="btnCHOCO"]');
     });
-    this.waitForText('Thanks for voting!', function () {
-        entryConfirmed = true;
-    });
+    this.waitForText('Thanks for voting!', recordEntryConfirmed);
 });
 
-// boss: JSON.stringify(jQuery('form').serializeArray().reduce(function(res, cur){res[cur.name] = null; return res;}, {}), null, 2)
 addSweeps('pepsi trailer', 'October 31, 2015 11:59 PM EST', 'https://unlockthetrailer.com/', function Pepsi() {
     this.waitForSelector('#form1', function () {
         this.fill('#form1', {
@@ -297,15 +302,9 @@ addSweeps('pepsi trailer', 'October 31, 2015 11:59 PM EST', 'https://unlockthetr
         this.click('#chkTermsAndConditions');
         this.click('#btnSubmit');
     });
-    this.waitForText('Thank You!', function () {
-        entryConfirmed = true;
-    });
+    this.waitForText('Thank You!', recordEntryConfirmed);
 });
 
-////todo: add http://sweetiessweeps.com/2015/09/hgtv-com-fresh-faces-of-designawards-sweepstakes.html now that I'm registered
-//addSweeps('hgtv', 'October 30, 2015 5:00 pm EST', 'http://www.hgtv.com/design/fresh-faces-of-design/sweepstakes', function() {
-//
-//});
 
 addSweeps('reese', 'October 29, 2015 2:00 pm EST', 'http://www.reesespecialtyfoods.com/promotions', function () {
     this.waitUntilVisible('.group-wof-sweeps-content', function () {
@@ -435,9 +434,34 @@ addSweeps('toshiba fantastic four', '1/31/2016 11:59 PM PST', 'https://www.toshi
      });
      */
 
-    this.waitForText('You are not an instant winner', function () {
-        entryConfirmed = true;
-    });
+    this.waitForText('You are not an instant winner', recordEntryConfirmed);
+});
+
+addSweeps('yellowstone', 'October 31, 2015 11:59:59 pm EST', 'http://atlanticluggage.com/fall-sweepstakes-2015/', function(){
+    this.fill('#Optin38',{
+        "field6": first,
+        "field7": last,
+        "UEmail": email,
+        "field8": phone,
+        "field9": zip,
+        field10: true
+    }, true);
+});
+
+
+addSweeps('hgtv', 'October 30, 2015 5:00 pm EST', 'http://www.hgtv.com/design/fresh-faces-of-design/sweepstakes', function() {
+  this.withFrame('ngxFrame35721', function() {
+      this.fillSelectors('#xReturningUserForm', {
+          '#xReturningUserEmail': email
+      }, true);
+      this.waitForSelector('#xCampaignForm', function step2() {
+          shortWait();
+          // this doesn't seem to actually submit
+          this.fill('#xCampaignForm', {}, true);
+      });
+  });
+    
+    this.waitForText('Thanks for Entering!', recordEntryConfirmed);
 });
 
 //JSON.stringify(jQuery('form').serializeArray().reduce(function(res, cur){res[cur.name] = null; return res;}, {}), null, 2)

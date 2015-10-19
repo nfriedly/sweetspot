@@ -11,13 +11,13 @@ bot.run({
             this.fillSelectors('#xReturningUserForm', {
                 '#xReturningUserEmail': me.email
             }, true);
-            this.waitForSelector('#xCampaignForm', function step2() {
-                bot.shortWait();
-                // this doesn't seem to actually submit
-                this.fill('#xCampaignForm', {}, true);
+            this.waitForSelector('#xSecondaryForm', function step2() {
+                this.evaluate(function() {
+                    /*globals $*/
+                    $('#xSecondaryForm button').removeAttr('disabled').click();
+                });
             });
         });
-
         this.waitForText('Thanks for Entering!', bot.recordEntryConfirmed);
     }
 });

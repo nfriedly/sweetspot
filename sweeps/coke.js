@@ -15,5 +15,6 @@ bot.run({
             "#email": me.email,
         }, true);
         this.waitForText('Sweepstakes entered!', bot.recordEntryConfirmed);
+        // may also say "Congratulations! you've earned a free song
     }
 });

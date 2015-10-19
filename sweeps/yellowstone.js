@@ -16,5 +16,6 @@ bot.run({
             "field9": me.zip,
             field10: true
         }, true);
+        this.waitForText('You are now registered', bot.recordEntryConfirmed);
     }
 });

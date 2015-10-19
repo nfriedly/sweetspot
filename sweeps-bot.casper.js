@@ -9,7 +9,7 @@ var errCount = 0;
 
 function screenshot(name) {
     casper.capture('./screenshots/' + name);
-    casper.echo('<' + name + '>');
+    casper.echo('{' + name + '}');
 }
 
 function handleTimeout() {

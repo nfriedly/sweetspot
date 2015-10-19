@@ -40,12 +40,14 @@ scripts.filter(function (name) {
     // todo: run these in parallel - maybe with native promises!
     var result = cp.spawnSync('casperjs', args);
 
-    allResults.push(result.stdout.toString());
+    var logs = result.stdout.toString()
+        .replace(/Unsafe JavaScript attempt to access frame with URL about:blank .*[\r\n]{1,2}/g, '');
+    allResults.push(logs);
     allSuccess = allSuccess && (result.status === 0);
 
     //todo: read screenshots here in case there happen to be conflicting names
 
-    console.log(result.stdout.toString());
+    console.log(logs);
     console.error(result.stderr.toString());
 });
 
@@ -85,7 +87,7 @@ fs.readdir('./screenshots/', function(err, files) {
             cid: cid
         });
         // try to put the images inline with their sweeps
-        var replaceTarget = '<' + name + '>';
+        var replaceTarget = '{' + name + '}';
         var replaceValue = '<br>' + name + ':<br><img src="cid:' + cid + '"/>';
         if(email.html.indexOf(replaceTarget) != -1) {
             email.html.replace(replaceTarget, replaceValue);

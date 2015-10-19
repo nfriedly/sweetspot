@@ -8,6 +8,7 @@ var sgTransport = require('nodemailer-sendgrid-transport');
 var cp = require('child_process');
 var path = require('path');
 require('dotenv').config({silent: true});
+var argv = require('yargs').argv;
 
 
 var mailer = nodemailer.createTransport(sgTransport({
@@ -27,10 +28,17 @@ if (process.env.SOURCE) {
 var allResults = [];
 var allSuccess = true;
 
-var scripts = fs.readdirSync('./sweeps/');
-scripts.filter(function (name) {
+var scripts = fs.readdirSync('./sweeps/').filter(function (name) {
     return path.extname(name) == '.js';
-}).forEach(function (script) {
+});
+
+if (argv.only) {
+    scripts = scripts.filter(function(name) {
+        return (name.indexOf(argv.only) != -1);
+    });
+}
+
+scripts.forEach(function (script) {
     console.log('running %s...', script);
     var args = ['sweeps/' + script];
     if (process.env.SOURCE != 'localdev') {
@@ -95,7 +103,9 @@ fs.readdir('./screenshots/', function(err, files) {
             // append the image to the end if we can't find the sweeps it goes with
             email.html += '<br>' + replaceValue;
         }
-        fs.unlinkSync('./screenshots/' + name); // delete the file so we don't accidentally send the same screenshot twice
+        if (!argv.keepimages) {
+            fs.unlinkSync('./screenshots/' + name); // delete the file so we don't accidentally send the same screenshot twice
+        }
     });
 
 

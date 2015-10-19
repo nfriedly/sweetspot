@@ -6,6 +6,9 @@ var today = new Date();
 var delay;
 var returnCode = 0;
 var errCount = 0;
+var casper;
+var slow;
+var curSweeps = '';
 
 function screenshot(name) {
     casper.capture('./screenshots/' + name);
@@ -47,9 +50,6 @@ function recordEntryConfirmed() {
     entryConfirmed = true;
 }
 
-var casper;
-var slow;
-var curSweeps = '';
 function run(i) {
     casper = require('casper').create({
         //verbose: true,

@@ -40,7 +40,10 @@ if (argv.only) {
 
 scripts.forEach(function (script) {
     console.log('running %s...', script);
-    var args = ['sweeps/' + script];
+    var args = [
+        '--ignore-ssl-errors=yes',
+        'sweeps/' + script
+    ];
     if (process.env.SOURCE != 'localdev') {
         args.push('--slow');
     }
@@ -96,9 +99,9 @@ fs.readdir('./screenshots/', function(err, files) {
         });
         // try to put the images inline with their sweeps
         var replaceTarget = '{' + name + '}';
-        var replaceValue = '<br>' + name + ':<br><img src="cid:' + cid + '"/>';
+        var replaceValue = '<img src="cid:' + cid + '"/>';
         if(email.html.indexOf(replaceTarget) != -1) {
-            email.html.replace(replaceTarget, replaceValue);
+            email.html = email.html.replace(replaceTarget, replaceValue);
         } else {
             // append the image to the end if we can't find the sweeps it goes with
             email.html += '<br>' + replaceValue;

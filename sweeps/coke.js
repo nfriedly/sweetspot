@@ -13,7 +13,7 @@ bot.run({
         this.clickLabel('Already Registered? ', 'a'); // this step doesn't fail... but also doesn't seem to work properly
         this.fillSelectors('#intro_login_form', {
             "#email": me.email,
-        }, false);
+        }, true);
         this.waitForText('Sweepstakes entered!', bot.recordEntryConfirmed);
     }
 });

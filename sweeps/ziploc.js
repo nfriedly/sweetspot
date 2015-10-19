@@ -11,12 +11,12 @@ bot.run({
         this.waitForSelector('#emailFormLogin', function () {
             this.fill('#emailFormLogin', {Identifier: me.email}, true);
         });
-        this.waitFor(function () {
-            return this.evaluate(function () {
-                /*globals window*/
-                return window.onEndedEvent;
-            });
-        });
+        //this.waitFor(function () {
+        //    return this.evaluate(function () {
+        //        /*globals window*/
+        //        return window.onEndedEvent;
+        //    });
+        //});
         //this.then(function () {
         //    this.evaluate(function () {
         //        /*globals window*/
@@ -26,8 +26,6 @@ bot.run({
         this.waitForSelector('#reveal_btn', function () {
             this.click('#reveal_btn');
         });
-        this.wait(3000, function () {
-            // this.debugHTML(); //todo: figure out success identifier
-        });
+        this.waitForText('BUT YOU DID ENTER FOR A CHANCE TO WIN $10,000.', bot.recordEntryConfirmed);
     }
 });

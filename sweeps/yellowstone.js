@@ -16,6 +16,6 @@ bot.run({
             "field9": me.zip,
             field10: true
         }, true);
-        this.waitForText('You are now registered', bot.recordEntryConfirmed);
+        this.waitForUrl('http://atlanticluggage.com/fall-sweepstakes-2015/thankyou.html', bot.recordEntryConfirmed);
     }
 });

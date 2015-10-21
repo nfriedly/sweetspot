@@ -74,7 +74,7 @@ function run(i) {
     casper.userAgent('Mozilla/5.0 (Macintosh; Intel Mac OS X 10.10; rv:40.0) Gecko/20100101 Firefox/40.0');
 
     var name  = i.name, end = i.end, startUrl = i.startUrl, enter = i.fn;
-    var curSweeps = name.replace(/[^a-z0-9]+/ig, ' ').trim().replace(/\s+/g, '-');
+    curSweeps = name.replace(/[^a-z0-9]+/ig, ' ').trim().replace(/\s+/g, '-');
 
     if (today < new Date(end)) {
         casper.then(function () {

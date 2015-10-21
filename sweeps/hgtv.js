@@ -11,10 +11,11 @@ bot.run({
             this.fillSelectors('#xReturningUserForm', {
                 '#xReturningUserEmail': me.email
             }, true);
+            this.wait(100);
             this.waitForSelector('#xSecondaryForm', function step2() {
                 this.evaluate(function() {
                     /*globals $*/
-                    $('#xSecondaryForm button').removeAttr('disabled').click();
+                    $('#xSubmitContainer button').eq(1).click();
                 });
             });
         });

@@ -12,7 +12,6 @@ bot.run({
             this.echo('captcha\'d sweepstakes:');
             [
                 {url: 'http://littlehuglunchboxsurprise.com/enter_online/', end: 'October 30, 2015 10:00 AM EST'},
-                {url: 'http://www.crazyexsweepstakes.com/', end: 'October 19, 2015 10:59:59 pm cst'},
                 {url: 'http://www.behindthesigngiveaway.com/', end: 'October 31, 2015 10:59:59 pm mst'},
                 {url: 'https://doubleshotpromo.com/', end: 'October 30, 2015  11:59:59 pm EST'}
             ].forEach(function (s) {

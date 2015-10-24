@@ -14,7 +14,8 @@ bot.run({
                 {url: 'http://littlehuglunchboxsurprise.com/enter_online/', end: 'October 30, 2015 10:00 AM EST'},
                 {url: 'http://www.behindthesigngiveaway.com/', end: 'October 31, 2015 10:59:59 pm mst'},
                 {url: 'https://www.healthychildren.org/english/pages/sweeps.aspx/', end: 'October 31, 2015 11:59 pm EST'},
-                {url: 'https://doubleshotpromo.com/', end: 'October 30, 2015  11:59:59 pm EST'}
+                {url: 'https://doubleshotpromo.com/', end: 'October 30, 2015  11:59:59 pm EST'},
+                {url: 'http://www.hgtv.com/design/fresh-faces-of-design/sweepstakes', end: 'October 30, 2015 5:00 pm EST'},
             ].forEach(function (s) {
                     if (today < new Date(s.end)) {
                         this.echo(s.url);

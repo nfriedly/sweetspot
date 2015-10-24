@@ -7,6 +7,7 @@ bot.run({
     end: 'November 13, 2015 11:59 PM PST',
     startUrl: 'http://www.gamecrate.com/lucky-13-corsair-giveaway/11352?cm_mmc=SNC-Facebook-_-NA-_-GameCrate-lucky13corsair-_-NA',
     fn: function () {
+        bot.min24();
         this.withFrame(0, function () {
             //this.capture('./screen.png');
             //this.debugHTML();

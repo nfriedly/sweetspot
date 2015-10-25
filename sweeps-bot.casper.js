@@ -53,7 +53,7 @@ function recordEntryConfirmed() {
 function run(i) {
     casper = require('casper').create({
         //verbose: true,
-        logLevel: 'debug',
+        //logLevel: 'debug',
         onError: function (casperInstance, errorMessage /*, engine*/) {
             this.echo("Error: " + errorMessage + " on " + this.getCurrentUrl());
             errCount++;
@@ -66,9 +66,9 @@ function run(i) {
         onWaitTimeout: handleTimeout
     });
 
-    casper.on('remote.message', function(message) {
-        this.echo(message);
-    });
+    //casper.on('remote.message', function(message) {
+    //    this.echo(message);
+    //});
 
     casper.options.waitTimeout = 15 * 1000;
 

@@ -1,5 +1,5 @@
 {
-  "name": "newegg-bot",
+  "name": "sweeps-bot",
   "version": "1.0.0",
   "description": "auto-enters you into the newegg sweepstakes",
   "main": "index.js",

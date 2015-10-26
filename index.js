@@ -9,6 +9,9 @@ var cp = require('child_process');
 var path = require('path');
 require('dotenv').config({silent: true});
 var argv = require('yargs').argv;
+var async = require('async');
+var concat = require('concat-stream');
+var prefix = require('prefix-stream');
 
 
 var mailer = nodemailer.createTransport(sgTransport({
@@ -38,7 +41,7 @@ if (argv.only) {
     });
 }
 
-scripts.forEach(function (script) {
+async.eachLimit(scripts, 5, function (script, next) {
     console.log('running %s...', script);
     var args = [
         '--ignore-ssl-errors=yes',
@@ -48,76 +51,92 @@ scripts.forEach(function (script) {
         args.push('--slow');
     }
 
-    // todo: run these in parallel - maybe with native promises!
-    var result = cp.spawnSync('casperjs', args);
+    var casper = cp.spawn('casperjs', args);
 
-    var logs = result.stdout.toString()
-        .replace(/Unsafe JavaScript attempt to access frame with URL about:blank .*[\r\n]{1,2}/g, '');
-    allResults.push(logs);
-    allSuccess = allSuccess && (result.status === 0);
+    var p = path.basename(script, '.js') + ': ';
+    casper.stdout.pipe(prefix(p)).pipe(process.stdout);
+    casper.stderr.pipe(prefix(p)).pipe(process.stderr);
 
-    //todo: read screenshots here in case there happen to be conflicting names
+    casper.stdout.pipe(concat(function(stdout) {
+        var logs = stdout.toString()
+            .replace(/Unsafe JavaScript attempt to access frame with URL about:blank .*[\r\n]{1,2}/g, '');
+        allResults.push(logs);
 
-    console.log(logs);
-    console.error(result.stderr.toString());
-});
+        //todo: read screenshots here in case there happen to be conflicting names
+    }));
 
-if (!process.env.EMAIL) {
-    process.exit(allSuccess ? 0 : 1);
-}
+    var watchdog = setTimeout(function() {
+        console.log('Assuming %s is hung, killing', script);
+        casper.kill();
+    }, 60*60*1000);
 
-console.log('Emailing results to %s', process.env.EMAIL);
+    casper.on('close', function(code) {
+        clearTimeout(watchdog);
+        allSuccess = allSuccess && (code === 0);
+        next();
+    });
 
 
-var contents = allResults.join('\n');
+}, function() {
 
-contents = uncolor(contents);
-
-var email = {
-    to: process.env.EMAIL,
-    from: process.env.EMAIL,
-    subject: '[sweeps-bot] ' + (allSuccess ?  'Success' : 'Error') ,
-    text: contents,
-    html: contents.replace(/\n/g, '<br>'),
-    attachments: []
-};
-
-fs.readdir('./screenshots/', function(err, files) {
-
-    function getRandomId() {
-        return parseInt(Math.random().toString().slice(2), 10).toString(36);
+    if (!process.env.EMAIL) {
+        process.exit(allSuccess ? 0 : 1);
     }
 
-    files.filter(function (name) {
-        return path.extname(name) == '.png';
-    }).forEach(function (name) {
-        var cid = getRandomId() + '@screen.png';
-        email.attachments.push({
-            filename: name,
-            content: fs.readFileSync('./screenshots/' + name), // read the file into memory so that we can delete it right away
-            cid: cid
+    console.log('Emailing results to %s', process.env.EMAIL);
+
+
+    var contents = allResults.join('\n');
+
+    contents = uncolor(contents);
+
+    var email = {
+        to: process.env.EMAIL,
+        from: process.env.EMAIL,
+        subject: '[sweeps-bot] ' + (allSuccess ?  'Success' : 'Error') ,
+        text: contents,
+        html: contents.replace(/\n/g, '<br>'),
+        attachments: []
+    };
+
+    fs.readdir('./screenshots/', function(err, files) {
+
+        function getRandomId() {
+            return parseInt(Math.random().toString().slice(2), 10).toString(36);
+        }
+
+        files.filter(function (name) {
+            return path.extname(name) == '.png';
+        }).forEach(function (name) {
+            var cid = getRandomId() + '@screen.png';
+            email.attachments.push({
+                filename: name,
+                content: fs.readFileSync('./screenshots/' + name), // read the file into memory so that we can delete it right away
+                cid: cid
+            });
+            // try to put the images inline with their sweeps
+            var replaceTarget = '{' + name + '}';
+            var replaceValue = '<img src="cid:' + cid + '"/>';
+            if(email.html.indexOf(replaceTarget) != -1) {
+                email.html = email.html.replace(replaceTarget, replaceValue);
+            } else {
+                // append the image to the end if we can't find the sweeps it goes with
+                email.html += '<br>' + replaceValue;
+            }
+            if (!argv.keepimages) {
+                fs.unlinkSync('./screenshots/' + name); // delete the file so we don't accidentally send the same screenshot twice
+            }
         });
-        // try to put the images inline with their sweeps
-        var replaceTarget = '{' + name + '}';
-        var replaceValue = '<img src="cid:' + cid + '"/>';
-        if(email.html.indexOf(replaceTarget) != -1) {
-            email.html = email.html.replace(replaceTarget, replaceValue);
-        } else {
-            // append the image to the end if we can't find the sweeps it goes with
-            email.html += '<br>' + replaceValue;
-        }
-        if (!argv.keepimages) {
-            fs.unlinkSync('./screenshots/' + name); // delete the file so we don't accidentally send the same screenshot twice
-        }
-    });
 
 
-    mailer.sendMail(email, function(err, res) {
-        if (err) {
-            console.error(err);
-        }
-        console.log(res);
-        process.exit(allSuccess ? 0 : 1);
+        mailer.sendMail(email, function(err, res) {
+            if (err) {
+                console.error(err);
+            }
+            console.log(res);
+            process.exit(allSuccess ? 0 : 1);
+        });
     });
+
 });
 

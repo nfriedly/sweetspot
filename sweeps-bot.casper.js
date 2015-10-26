@@ -30,7 +30,7 @@ function handleTimeout() {
 // may cause a missed entry on the 1st of each month...
 function min24() {
     if (slow) {
-        delay = (new Date().getDate()) * 2 + Math.random();
+        delay = new Date().getDate()-1;
         casper.then(function () {
             this.echo('waiting ' + delay + ' minutes');
         });

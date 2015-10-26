@@ -21,11 +21,14 @@
   },
   "homepage": "https://github.com/nfriedly/newegg-bot#readme",
   "dependencies": {
+    "async": "^1.5.0",
     "casperjs": "^1.1.0-beta3",
+    "concat-stream": "^1.5.1",
     "dotenv": "^1.2.0",
     "nodemailer": "^1.5.0",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "phantomjs": "^1.9.18",
+    "prefix-stream": "^1.0.0",
     "uncolor": "^0.3.0",
     "yargs": "^3.27.0"
   },

@@ -11,7 +11,7 @@ require('dotenv').config({silent: true});
 var argv = require('yargs').argv;
 var async = require('async');
 var concat = require('concat-stream');
-var prefix = require('prefix-stream');
+var prefixStream = require('prefix-stream');
 
 
 var mailer = nodemailer.createTransport(sgTransport({
@@ -53,9 +53,9 @@ async.eachLimit(scripts, 5, function (script, next) {
 
     var casper = cp.spawn('casperjs', args);
 
-    var p = path.basename(script, '.js') + ': ';
-    casper.stdout.pipe(prefix(p)).pipe(process.stdout);
-    casper.stderr.pipe(prefix(p)).pipe(process.stderr);
+    var prefix = path.basename(script, '.js') + ': ';
+    casper.stdout.pipe(prefixStream(prefix)).pipe(process.stdout);
+    casper.stderr.pipe(prefixStream(prefix)).pipe(process.stderr);
 
     casper.stdout.pipe(concat(function(stdout) {
         var logs = stdout.toString()

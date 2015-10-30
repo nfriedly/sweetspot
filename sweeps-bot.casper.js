@@ -121,7 +121,8 @@ exports.me = {
     state: 'OH',
     zip: '45359',
     phone: '937-409-1337',
-    email: 'nathan.friedly@gmail.com'
+    email: 'nathan.friedly@gmail.com',
+    email2: 'misticflame@gmail.com'
 };
 
 

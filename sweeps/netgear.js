@@ -20,7 +20,7 @@ bot.run({
                 email: me.email2,
                 custom_4: false
             }, true);
+            this.waitForResource('https://s3-external-1.amazonaws.com/offertabs/offer/ty2pco/56141325f1158-ThankYou.jpg', bot.recordEntryConfirmed);
         });
-        this.waitForText('Click above image to learn more about the Nighthawk X8', bot.recordEntryConfirmed);
     }
 });

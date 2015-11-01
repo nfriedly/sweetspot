@@ -1,5 +1,6 @@
-Newegg Sweepstakes Bot
+Sweetspot ("Sweepstakes Bot")
 ===============================
+[![Build Status](https://travis-ci.org/nfriedly/sweeps-bot.svg?branch=master)](https://travis-ci.org/nfriedly/sweeps-bot)
 
 Helps you enter / remember to enter "once per day" sweepstakes.
 

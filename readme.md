@@ -50,9 +50,7 @@ Open the cronjob config page:
 
     heroku addons:open scheduler
   
-Set the cronjob to run the command `npm start` once per day. (Or perhaps more often if you're doing auction stuff.)
-
-Note: travis has a bug where they assume a web server even though we didn't declare 
+Set the cronjob to run the command `npm start` once per day. (Or perhaps more often if appropriate.)
     
 If it doesn't seem to be working, run `heroku run bash` to open a shell on a new server instance. Then you can try running different commands and see what's going on.
 

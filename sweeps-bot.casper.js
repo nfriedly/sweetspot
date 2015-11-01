@@ -34,7 +34,7 @@ function min24() {
         casper.then(function () {
             this.echo('waiting ' + delay + ' minutes');
         });
-        casper.wait((delay * 60) * 1000);
+        casper.wait((delay * 60 +1) * 1000);
     }
 }
 

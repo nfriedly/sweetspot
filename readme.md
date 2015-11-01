@@ -1,4 +1,4 @@
-Sweetspot ("Sweepstakes Bot")
+Sweetspot ("Sweeps Bot")
 ===============================
 [![Build Status](https://travis-ci.org/nfriedly/sweeps-bot.svg?branch=master)](https://travis-ci.org/nfriedly/sweeps-bot)
 

@@ -11,18 +11,20 @@ bot.run({
         this.withFrame(0, function () {
             this.waitForSelector('label.rules-check', function () {
                 bot.shortWait();
-                this.click('label.rules-check');
-                this.fill('#sweepstakes_pom', {
-                    'first-name': me.first,
-                    'last-name': me.last,
-                    'email': me.email,
-                    'phone': me.phone,
-                    'month': '08',
-                    'day': '01',
-                    'year': '1986',
-                    'zip-code': me.zip,
-                    //'rules-check': true
-                }, true);
+                this.then(function() {
+                    this.click('label.rules-check');
+                    this.fill('#sweepstakes_pom', {
+                        'first-name': me.first,
+                        'last-name': me.last,
+                        'email': me.email,
+                        'phone': me.phone,
+                        'month': '08',
+                        'day': '01',
+                        'year': '1986',
+                        'zip-code': me.zip,
+                        //'rules-check': true
+                    }, true);
+                });
                 this.waitForResource('https://www.nbc.com/spt/nsweeps/nis_success_d.png', bot.recordEntryConfirmed);
             });
         });

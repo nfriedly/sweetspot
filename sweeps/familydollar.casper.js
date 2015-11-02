@@ -1,5 +1,3 @@
-//
-
 'use strict';
 var bot = require('../sweeps-bot.casper.js');
 var me = bot.me;

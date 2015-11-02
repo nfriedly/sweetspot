@@ -1,4 +1,3 @@
-//<a href="thanks" class="skip">SKIP</a>
 'use strict';
 var bot = require('../sweeps-bot.casper.js');
 var me = bot.me;

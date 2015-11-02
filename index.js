@@ -43,21 +43,40 @@ if (argv.only) {
 
 async.eachLimit(scripts, 5, function (script, next) {
     console.log('running %s...', script);
-    var args = [
-        '--ignore-ssl-errors=yes',
-        'sweeps/' + script
-    ];
-    if (process.env.SOURCE != 'localdev') {
-        args.push('--slow');
+
+    var proc, args;
+
+    if (script.substr(-10) === '.casper.js') {
+
+        args = [
+            '--ignore-ssl-errors=yes',
+            'sweeps/' + script
+        ];
+        if (process.env.SOURCE != 'localdev') {
+            args.push('--slow');
+        }
+
+        proc = cp.spawn('casperjs', args);
+    } else {
+        args = [
+
+        ];
+        if (process.env.SOURCE != 'localdev') {
+            args.push('--slow');
+        }
+        var opts = {
+            silent: true // don't automatically pipe stdio, we want to handle it manually
+            // execArgv: ['--harmony']
+        };
+
+        proc = cp.fork('./sweeps/' + script, args, opts);
     }
 
-    var casper = cp.spawn('casperjs', args);
-
     var prefix = path.basename(script, '.js') + ': ';
-    casper.stdout.pipe(prefixStream(prefix)).pipe(process.stdout);
-    casper.stderr.pipe(prefixStream(prefix)).pipe(process.stderr);
+    proc.stdout.pipe(prefixStream(prefix)).pipe(process.stdout);
+    proc.stderr.pipe(prefixStream(prefix)).pipe(process.stderr);
 
-    casper.stdout.pipe(concat(function(stdout) {
+    proc.stdout.pipe(concat(function(stdout) {
         var logs = stdout.toString()
             .replace(/Unsafe JavaScript attempt to access frame with URL about:blank .*[\r\n]{1,2}/g, '');
         allResults.push(logs);
@@ -67,10 +86,10 @@ async.eachLimit(scripts, 5, function (script, next) {
 
     var watchdog = setTimeout(function() {
         console.log('Assuming %s is hung, killing', script);
-        casper.kill();
+        proc.kill();
     }, 60*60*1000);
 
-    casper.on('close', function(code) {
+    proc.on('close', function(code) {
         clearTimeout(watchdog);
         allSuccess = allSuccess && (code === 0);
         next();

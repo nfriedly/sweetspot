@@ -11,12 +11,9 @@ bot.run({
             // these don't really belong here but meh...
             this.echo('captcha\'d sweepstakes:');
             [
-                {url: 'http://littlehuglunchboxsurprise.com/enter_online/', end: 'October 30, 2015 10:00 AM EST'},
-                {url: 'http://www.behindthesigngiveaway.com/', end: 'October 31, 2015 10:59:59 pm mst'},
-                {url: 'https://www.healthychildren.org/english/pages/sweeps.aspx/', end: 'October 31, 2015 11:59 pm EST'},
-                {url: 'https://doubleshotpromo.com/', end: 'October 30, 2015  11:59:59 pm EST'},
-                {url: 'http://www.hgtv.com/design/fresh-faces-of-design/sweepstakes', end: 'October 30, 2015 5:00 pm EST'},
-                {url: 'http://www.shopyourway.com/app/2/l/', end: 'November 26, 2015 11:59:59 PM CST'}, // todo: try and automate this one - requires a password
+                {url: 'http://www.diynetwork.com/shows/income-property/sweepstakes/dont-hate-renovate', end: 'November 21, 2015 5:00 pm EST'},
+                {url: 'http://www.hgtv.com/shows/income-property/sweepstakes/dont-hate-renovate', end: 'November 21, 2015 5:00 pm EST'},
+                {url: 'http://fallout4.wiki.fextralife.com/Fallout+4+Wiki', end: 'November 9, 2015 11:59 pm EST'},
             ].forEach(function (s) {
                     if (today < new Date(s.end)) {
                         this.echo(s.url);

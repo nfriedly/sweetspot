@@ -25,6 +25,7 @@
     "casperjs": "^1.1.0-beta3",
     "concat-stream": "^1.5.1",
     "dotenv": "^1.2.0",
+    "lodash": "^3.10.1",
     "nodemailer": "^1.5.0",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "phantomjs": "^1.9.18",

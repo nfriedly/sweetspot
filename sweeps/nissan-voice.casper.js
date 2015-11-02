@@ -10,7 +10,7 @@ bot.run({
     fn: function () {
         this.withFrame(0, function () {
             this.waitForSelector('label.rules-check', function () {
-                this.shortWait();
+                bot.shortWait();
                 this.click('label.rules-check');
                 this.fill('#sweepstakes_pom', {
                     'first-name': me.first,

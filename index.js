@@ -124,23 +124,31 @@ async.eachLimit(scripts, 5, function (script, next) {
             return parseInt(Math.random().toString().slice(2), 10).toString(36);
         }
 
+        var lastImage = new Buffer(0);
         files.filter(function (name) {
             return path.extname(name) == '.png';
         }).forEach(function (name) {
-            var cid = getRandomId() + '@screen.png';
-            email.attachments.push({
-                filename: name,
-                content: fs.readFileSync('./screenshots/' + name), // read the file into memory so that we can delete it right away
-                cid: cid
-            });
-            // try to put the images inline with their sweeps
+            var content = fs.readFileSync('./screenshots/' + name);
             var replaceTarget = '{' + name + '}';
-            var replaceValue = '<img src="cid:' + cid + '"/>';
-            if(email.html.indexOf(replaceTarget) != -1) {
-                email.html = email.html.replace(replaceTarget, replaceValue);
+            if (content.compare(lastImage, content) === 0) {
+                console.log('skipping duplicate image');
+                email.html = email.html.replace(replaceTarget, '');
             } else {
-                // append the image to the end if we can't find the sweeps it goes with
-                email.html += '<br>' + replaceValue;
+                lastImage = content;
+                var cid = getRandomId() + '@screen.png';
+                email.attachments.push({
+                    filename: name,
+                    content: content, // read the file into memory so that we can delete it right away
+                    cid: cid
+                });
+                // try to put the images inline with their sweeps
+                var replaceValue = '<img src="cid:' + cid + '"/>';
+                if(email.html.indexOf(replaceTarget) != -1) {
+                    email.html = email.html.replace(replaceTarget, replaceValue);
+                } else {
+                    // append the image to the end if we can't find the sweeps it goes with
+                    email.html += '<br>' + replaceValue;
+                }
             }
             if (!argv.keepimages) {
                 fs.unlinkSync('./screenshots/' + name); // delete the file so we don't accidentally send the same screenshot twice

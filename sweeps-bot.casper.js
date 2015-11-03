@@ -94,6 +94,8 @@ function run(i) {
         casper.then(function () {
             if (entryConfirmed) {
                 this.echo('entry confirmed!');
+            } else if (i.noScreenshot) {
+                // do nothing
             } else {
                 var filename = curSweeps + '.png';
                 this.echo('done with ' + name);

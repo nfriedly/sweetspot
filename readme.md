@@ -1,6 +1,6 @@
 Sweetspot ("Sweeps Bot")
 ===============================
-[![Build Status](https://travis-ci.org/nfriedly/sweeps-bot.svg?branch=master)](https://travis-ci.org/nfriedly/sweeps-bot)
+[![Build Status](https://travis-ci.org/nfriedly/sweetspot.svg?branch=master)](https://travis-ci.org/nfriedly/sweetspot)
 
 Helps you enter / remember to enter "once per day" sweepstakes.
 

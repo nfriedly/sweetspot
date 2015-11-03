@@ -13,6 +13,7 @@ bot.run({
                 "email": me.email2,
             }, true);
         });
+        /*
         this.waitForText("Pick a pattern.", function() {
             bot.shortWait();
             this.fill('#survey_form_a', {
@@ -40,6 +41,7 @@ bot.run({
             }, false);
             this.click('input.btn_submit');
         });
+        */
         this.waitForText('You\'ve earned a sweepstakes entry!', bot.recordEntryConfirmed);
     }
 });

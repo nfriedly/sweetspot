@@ -115,18 +115,7 @@ exports.recordEntryConfirmed = recordEntryConfirmed;
 exports.run = run;
 exports.screenshot = screenshot;
 
-exports.me = {
-    first: 'Nathan',
-    last: 'Friedly',
-    addr: '7527 Cox Rd.',
-    city: 'Pleasant Hill',
-    state: 'OH',
-    zip: '45359',
-    phone: '937-409-1337',
-    email: 'nathan.friedly@gmail.com',
-    email2: 'misticflame@gmail.com'
-};
-
+exports.me = require('./me.json');
 
 
 

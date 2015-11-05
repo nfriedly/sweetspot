@@ -83,6 +83,12 @@ async.eachLimit(scripts, 5, function (script, next) {
 
         //todo: read screenshots here in case there happen to be conflicting names
     }));
+    proc.stderr.pipe(concat(function(stdout) {
+        var logs = stdout.toString()
+            .replace(/Unsafe JavaScript attempt to access frame with URL about:blank .*[\r\n]{1,2}/g, '');
+        if (logs.trim().length)
+        allResults.push(script + ' stderr:\n' + logs);
+    }));
 
     var watchdog = setTimeout(function() {
         console.log('Assuming %s is hung, killing', script);
@@ -117,6 +123,11 @@ async.eachLimit(scripts, 5, function (script, next) {
         html: contents.replace(/\n/g, '<br>'),
         attachments: []
     };
+
+
+    console.log('\nemail\n');
+    console.log(email.text);
+    process.exit();
 
     fs.readdir('./screenshots/', function(err, files) {
 

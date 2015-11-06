@@ -41,7 +41,7 @@ function min24() {
 
 function shortWait(next) {
     if (slow) {
-        casper.wait((3 + Math.random() * 30) * 1000, next); // wait 3-33 seconds
+        casper.wait((1 + Math.random() * 14) * 1000, next); // wait 1-15 seconds
     } else {
         casper.wait(3000, next);
     }

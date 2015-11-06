@@ -23,9 +23,9 @@ bot.run({
             if (casper.exists('div.gameTop_X')) {
                 casper.click('div.gameTop_X');
                 var delay = 500 + Math.random() * 1000;
-                casper.wait(delay, clickNext)
+                casper.wait(delay, clickNext);
             } else {
-                this.waitForText('SORRY', bot.recordEntryConfirmed);
+                casper.waitForText('SORRY', bot.recordEntryConfirmed);
             }
 
         }

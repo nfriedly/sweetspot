@@ -124,11 +124,6 @@ async.eachLimit(scripts, 5, function (script, next) {
         attachments: []
     };
 
-
-    console.log('\nemail\n');
-    console.log(email.text);
-    process.exit();
-
     fs.readdir('./screenshots/', function(err, files) {
 
         function getRandomId() {

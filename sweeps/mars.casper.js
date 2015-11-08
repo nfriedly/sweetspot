@@ -29,5 +29,6 @@ bot.run({
             }
 
         }
+        this.waitForSelector('div.gameTop_X', clickNext);
     }
 });

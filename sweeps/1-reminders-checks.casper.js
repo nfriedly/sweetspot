@@ -14,7 +14,6 @@ bot.run({
             [
                 {url: 'http://www.diynetwork.com/shows/income-property/sweepstakes/dont-hate-renovate', end: 'November 21, 2015 5:00 pm EST'},
                 {url: 'http://www.hgtv.com/shows/income-property/sweepstakes/dont-hate-renovate', end: 'November 21, 2015 5:00 pm EST'},
-                {url: 'http://fallout4.wiki.fextralife.com/Fallout+4+Wiki', end: 'November 9, 2015 11:59 pm EST'},
             ].forEach(function (s) {
                     if (today < new Date(s.end)) {
                         this.echo(s.url);

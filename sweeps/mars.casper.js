@@ -16,7 +16,8 @@ bot.run({
         this.waitForSelector('#emailFormLogin', function() {
             this.fill('#emailFormLogin', {
                 Identifier: me.email2
-            }, true);
+            }, false);
+            this.click('input.btn-enter');
         });
         var casper = this;
         function clickNext() {
@@ -29,6 +30,7 @@ bot.run({
             }
 
         }
+        bot.shortWait();
         this.waitForSelector('div.gameTop_X', clickNext);
     }
 });

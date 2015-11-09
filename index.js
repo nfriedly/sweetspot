@@ -98,7 +98,7 @@ async.eachLimit(scripts, 5, function (script, next) {
     proc.on('close', function(code) {
         clearTimeout(watchdog);
         allSuccess = allSuccess && (code === 0);
-        next();
+        setTimeout(next, 300);
     });
 
 

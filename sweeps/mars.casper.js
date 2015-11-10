@@ -6,7 +6,10 @@ bot.run({
     name: 'Mars get charged for the holidays',
     end: '12/31/2015 11:59 am EST',
     startUrl: 'https://getcharged.mars.com/',
+    noScreenshot: true,
     fn: function () {
+        this.echo('skipping for now...');
+        /*
         this.fillSelectors('form', {
             '#PL_AgeGate_Birthdate_month': '8',
             '#PL_AgeGate_Birthdate_day': '1',
@@ -32,5 +35,6 @@ bot.run({
         }
         bot.shortWait();
         this.waitForSelector('div.gameTop_X', clickNext);
+        */
     }
 });

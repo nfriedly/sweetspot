@@ -14,6 +14,6 @@ bot.run({
             'contest_entry[phone]': me.phone,
             'contest_entry[postal_code]': me.zip,
         }, true);
-        this.waitForText('THANKS FOR ENTERING', bot.recordEntryConfirmed);
+        this.waitForText('Thanks for Entering!', bot.recordEntryConfirmed);
     }
 });

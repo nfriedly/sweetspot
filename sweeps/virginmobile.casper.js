@@ -4,7 +4,7 @@ var me = bot.me;
 
 bot.run({
     name: 'Virgin Mobile Gigaway',
-    end: '12/431/2015 11:59 PM EST',
+    end: '12/31/2015 11:59 PM EST',
     startUrl: 'http://www.doitforthedata.com/gigaway',
     fn: function () {
 

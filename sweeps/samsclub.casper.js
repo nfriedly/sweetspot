@@ -33,7 +33,7 @@ bot.run({
                         tryNext();
                     }
                 }
-            })
+            });
         }
         this.waitForSelector('#ngxFrame37991', function () {
             numFrames = this.evaluate(function () {

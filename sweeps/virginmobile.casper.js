@@ -14,7 +14,11 @@ bot.run({
             email: me.email2,
             email_confirmation: me.email2
         }, false);
-        this.click('#age-field');
+        //this.click('#age-field');
+        this.click('#dob_month2SelectBoxItArrow');
+        this.click('#dob_month2SelectBoxItOptions li[data-val="8"]');
+        this.click('#dob_yearSelectBoxItArrowContainer');
+        this.click('#dob_yearSelectBoxItOptions li[data-val="1986"]');
         this.click('input[name="submit_btn"]');
         this.waitForText('Thanks', bot.recordEntryConfirmed);
     }

@@ -7,7 +7,7 @@ function post(msg) {
             if (err) {
                 return reject(err);
             }
-            resolve('https://twitter.com/' + data.user.screen_name + '/status/' + data.id);
+            resolve('https://twitter.com/' + data.user.screen_name + '/status/' + data.id_str);
         });
     });
 }

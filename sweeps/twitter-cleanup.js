@@ -16,7 +16,7 @@ twit.get('statuses/user_timeline', {screen_name:'misticflame', count: 50}, funct
     data.forEach(function(tweet) {
         if (
             tweet.text.match(/@SYWSweeps|@lgus/i) ||
-            (tweet.text.match(/@androidauth|@tabtimes|@realsoundguys/i) && new Date(tweet.created_at) < yesterday)
+            (tweet.text.match(/\b#?win\b|winner|giveaway|giving.*away|sweepstakes|@androidauth|@tabtimes|@realsoundguys/i) && new Date(tweet.created_at) < yesterday)
         ) {
             numdeleted++;
             twit.post('statuses/destroy/' + tweet.id_str, function(err) {
@@ -26,5 +26,5 @@ twit.get('statuses/user_timeline', {screen_name:'misticflame', count: 50}, funct
             });
         }
     });
-    console.log('deleted %s tweets', numdeleted);
+    console.log('deleting %s tweets', numdeleted);
 });

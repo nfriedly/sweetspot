@@ -16,7 +16,8 @@ bot.run({
             // pro tip: RegEx#exec always returns exactly one match, but it remembers it's index when performing a global match and starts from there the next time
             // so, you can put it in a while loop and it will return each match once
             var match, re=/giveaway|giving away|\bwin\b|sweepstakes/ig;
-            /* jshint -W084 */ // jshint doesn't like when I have an assignment inside of a while loop. Regardless, this is the correct usage.
+            /* jshint -W084 */
+            // jslint/hint doesn't like when I have an assignment inside of a while loop. Regardless, this is the correct usage.
             while(match = re.exec(text)) {
                 var length = 500, halflen = Math.round(length/2);
                 var start = Math.max(0, match.index-halflen);

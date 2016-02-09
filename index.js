@@ -108,12 +108,25 @@ async.eachLimit(scripts, 5, function (script, next) {
         process.exit(allSuccess ? 0 : 1);
     }
 
-    console.log('Emailing results to %s', process.env.EMAIL);
-
-
     var contents = allResults.join('\n');
 
     contents = uncolor(contents);
+
+    var nothingNewMessage = `cleaning up twitter...
+got 50 recent tweets
+deleting 0 tweets
+
+toshiba fantastic four is now over
+
+beginning facebook and reminders - https://m.facebook.com/Newegg
+checking Newegg's facebook for new sweepstakes...`;
+
+    if (allSuccess && contents == nothingNewMessage) {
+        console.log("nothing new, skipping email");
+        process.exit();
+    }
+
+    console.log('Emailing results to %s', process.env.EMAIL);
 
     var email = {
         to: process.env.EMAIL,

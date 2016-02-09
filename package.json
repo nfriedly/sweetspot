@@ -21,23 +21,23 @@
   },
   "homepage": "https://github.com/nfriedly/newegg-bot#readme",
   "dependencies": {
-    "async": "^1.5.0",
-    "casperjs": "^1.1.0-beta3",
+    "async": "^1.5.2",
+    "casperjs": "^1.1.0-beta5",
     "concat-stream": "^1.5.1",
-    "dotenv": "^1.2.0",
-    "lodash": "^3.10.1",
-    "nodemailer": "^1.5.0",
+    "dotenv": "^2.0.0",
+    "lodash": "^4.3.0",
+    "nodemailer": "^2.1.0",
     "nodemailer-sendgrid-transport": "^0.2.0",
-    "phantomjs": "^1.9.18",
-    "prefix-stream": "^1.0.0",
-    "twit": "^2.1.1",
-    "uncolor": "^0.3.0",
-    "yargs": "^3.27.0"
+    "phantomjs-prebuilt": "^2.1.4",
+    "prefix-stream": "^1.0.1",
+    "twit": "^2.2.2",
+    "uncolor": "^0.4.0",
+    "yargs": "^3.32.0"
   },
   "engines": {
     "node": "^4.1.1"
   },
   "devDependencies": {
-    "jshint": "^2.8.0"
+    "jshint": "^2.9.1"
   }
 }

@@ -121,7 +121,7 @@ toshiba fantastic four is now over
 beginning facebook and reminders - https://m.facebook.com/Newegg
 checking Newegg's facebook for new sweepstakes...`;
 
-    if (allSuccess && contents == nothingNewMessage) {
+    if (allSuccess && contents.trim() == nothingNewMessage) {
         console.log("nothing new, skipping email");
         process.exit();
     }
